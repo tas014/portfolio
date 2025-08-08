@@ -4,12 +4,13 @@ defineProps<{
   minimize: (id: number) => void
   maximize: (id: number) => void
   close: (id: number) => void
+  drag: (event: MouseEvent | TouchEvent) => void
 }>()
 </script>
 
 <template>
   <article class="panel-container">
-    <div class="title-container">
+    <div class="title-container" @mousedown="drag" @touchstart="drag">
       <h2>
         <slot name="title">
           <h2>Default title</h2>
@@ -34,9 +35,10 @@ defineProps<{
 
 <style>
 .panel-container {
+  position: absolute;
   background-color: var(--color-background);
   border-radius: 1rem;
-  max-width: 50%;
+  width: fit-content;
   border: 1px solid var(--hover-color-highlight);
 }
 .links-container {
@@ -88,6 +90,7 @@ defineProps<{
   border-bottom: 1px solid var(--hover-color-highlight);
   background-color: var(--panel-title-color-background);
   overflow: hidden;
+  cursor: grab;
 }
 
 .text-container {
@@ -96,5 +99,6 @@ defineProps<{
   justify-content: space-between;
   padding: 2rem 3rem;
   min-height: 30vh;
+  max-width: 30vw;
 }
 </style>
