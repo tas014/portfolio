@@ -28,7 +28,15 @@ defineExpose({ container })
     >
       <h2>
         <slot name="title">
-          <h2>Default title</h2>
+          <h2
+            @click="
+              (e) => {
+                e.stopPropagation()
+              }
+            "
+          >
+            Default title
+          </h2>
         </slot>
       </h2>
       <div class="panel-interactables">
@@ -62,7 +70,13 @@ defineExpose({ container })
       </div>
     </div>
     <div class="text-container">
-      <p>
+      <p
+        @click="
+          (e) => {
+            e.stopPropagation()
+          }
+        "
+      >
         <slot> Default text </slot>
       </p>
       <ul class="links-container">
@@ -111,7 +125,7 @@ defineExpose({ container })
   color: #fff;
 }
 .panel-interactables i:hover {
-  background-color: var(--hover-color-highlight);
+  background-color: var(--panel-button-hover);
 }
 .panel-interactables i:last-of-type {
   border-top-right-radius: 1rem;
@@ -130,6 +144,10 @@ defineExpose({ container })
   background-color: var(--panel-title-color-background);
   overflow: hidden;
   cursor: grab;
+  transition: background-color 0.3s;
+}
+.title-container:hover {
+  background-color: var(--color-highlight);
 }
 .title-container h2 {
   padding-right: 1rem;
@@ -141,5 +159,10 @@ defineExpose({ container })
   justify-content: space-between;
   padding: 2rem 3rem;
   min-height: 30vh;
+}
+
+.title-container h2,
+.text-container {
+  user-select: text;
 }
 </style>

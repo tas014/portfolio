@@ -139,6 +139,15 @@ const handleMouseLeave = () => {
 
 // Button actions logic
 const minimizedPanels: Ref<MinimizedPanel[]> = ref([])
+const isPanelMaximized = computed(() => {
+  if (portrait.value.maximized) return true
+  for (const pan of panels.value) {
+    if (pan.maximized) {
+      return true
+    }
+  }
+  return false
+})
 const portrait = ref({
   title: computed(() => {
     return language.value === 'es' ? 'retrato' : 'portrait'
@@ -197,7 +206,7 @@ const maximizePanel = (panelId: number) => {
         left: portraitRef.style.left,
         zIndex: portraitRef.style.zIndex,
       }
-      portraitRef.style.top = '0%'
+      portraitRef.style.top = '5%'
       portraitRef.style.left = '10%'
     }
 
@@ -229,7 +238,7 @@ const maximizePanel = (panelId: number) => {
       left: panelRef.style.left,
       zIndex: panelRef.style.zIndex,
     }
-    panelRef.style.top = '0%'
+    panelRef.style.top = '5%'
     panelRef.style.left = '10%'
   }
 
@@ -282,7 +291,8 @@ let isDragging = false
 
 const dragStart = (event: MouseEvent | TouchEvent, panel: HTMLElement | null): void => {
   event.preventDefault()
-  if (!panel) return
+  if (!panel || isPanelMaximized.value) return
+  resetDraggableElementPos()
   draggableElementPos.value.draggedElement = panel
 
   panelRefs.value.forEach((panelRef) => {
@@ -359,6 +369,11 @@ onUnmounted(() => {
 
 <template>
   <section ref="dropBox">
+    <div
+      class="max-background"
+      :style="{ zIndex: highestZIndex - 1 }"
+      v-if="isPanelMaximized"
+    ></div>
     <h1 class="about-title">{{ language === 'es' ? 'Sobre Mi' : 'About Me' }}</h1>
     <div class="visible-panels">
       <SinglePanel
@@ -376,7 +391,6 @@ onUnmounted(() => {
         "
         @mouseover="handleMouseOver"
         @mouseleave="handleMouseLeave"
-        draggable="true"
         :class="panel.maximized ? 'maximized' : ''"
       >
         <template #title>{{ panel.title }}</template>
@@ -403,7 +417,6 @@ onUnmounted(() => {
             setPanelRef(e, -1)
           }
         "
-        draggable="true"
         @mouseover="handleMouseOver"
         @mouseleave="handleMouseLeave"
         :class="portrait.maximized ? 'maximized' : ''"
@@ -413,18 +426,19 @@ onUnmounted(() => {
       </PortraitPanel>
     </div>
     <ul class="minimized-panels">
-      <li v-for="panel in minimizedPanels" :key="panel.id">
+      <li
+        v-for="panel in minimizedPanels"
+        :key="panel.id"
+        @click="
+          () => {
+            maximizePanel(panel.id)
+          }
+        "
+      >
         <div>
           <h2>{{ panel.title }}</h2>
           <div class="minimized-icon-container">
-            <i
-              @click="
-                () => {
-                  maximizePanel(panel.id)
-                }
-              "
-              class="pi pi-expand"
-            ></i>
+            <i class="pi pi-expand"></i>
             <i
               @click="
                 () => {
@@ -462,6 +476,11 @@ section {
 .minimized-panels li {
   padding: 0rem 1rem;
   border-right: solid 1px var(--hover-color-highlight);
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+.minimized-panels li:hover {
+  background-color: var(--color-highlight);
 }
 .minimized-panels li > div {
   display: flex;
@@ -477,21 +496,28 @@ section {
   cursor: pointer;
 }
 .minimized-icon-container i:hover {
-  background-color: var(--hover-color-highlight);
+  background-color: var(--panel-button-hover);
 }
 .minimized-icon-container i:last-of-type:hover {
   background-color: #9b0b0b;
 }
 .maximized {
-  top: 0%;
+  position: fixed;
   left: 10%;
   max-width: 100%;
   width: 80%;
-  height: 100%;
+  height: 90%;
+}
+.max-background {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .about-title {
   padding: 5rem;
-  font-size: var(--primary-title);
 }
 .visible-panels article {
   transition:
