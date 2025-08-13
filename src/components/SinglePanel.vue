@@ -1,16 +1,31 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 defineProps<{
   panelId: number
   minimize: (id: number) => void
   maximize: (id: number) => void
   close: (id: number) => void
-  drag: (event: MouseEvent | TouchEvent) => void
+  drag: (event: MouseEvent | TouchEvent, container: HTMLElement | null) => void
 }>()
+const container = ref<HTMLElement | null>(null)
+defineExpose({ container })
 </script>
 
 <template>
-  <article class="panel-container">
-    <div class="title-container" @mousedown="drag" @touchstart="drag">
+  <article ref="container" class="panel-container">
+    <div
+      class="title-container"
+      @mousedown="
+        (e) => {
+          drag(e, container)
+        }
+      "
+      @touchstart="
+        (e) => {
+          drag(e, container)
+        }
+      "
+    >
       <h2>
         <slot name="title">
           <h2>Default title</h2>
@@ -91,6 +106,9 @@ defineProps<{
   background-color: var(--panel-title-color-background);
   overflow: hidden;
   cursor: grab;
+}
+.title-container h2 {
+  padding-right: 1rem;
 }
 
 .text-container {
