@@ -32,9 +32,33 @@ defineExpose({ container })
         </slot>
       </h2>
       <div class="panel-interactables">
-        <i @click="() => minimize(panelId)" class="pi pi-minus"></i>
-        <i @click="() => maximize(panelId)" class="pi pi-expand"></i>
-        <i @click="() => close(panelId)" class="pi pi-times"></i>
+        <i
+          @click="
+            (e) => {
+              e.stopPropagation()
+              minimize(panelId)
+            }
+          "
+          class="pi pi-minus"
+        ></i>
+        <i
+          @click="
+            (e) => {
+              e.stopPropagation()
+              maximize(panelId)
+            }
+          "
+          class="pi pi-expand"
+        ></i>
+        <i
+          @click="
+            (e) => {
+              e.stopPropagation()
+              close(panelId)
+            }
+          "
+          class="pi pi-times"
+        ></i>
       </div>
     </div>
     <div class="portrait-container">

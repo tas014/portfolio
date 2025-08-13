@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { languageKey, type Language } from '@/stores/lang'
-import { inject, ref, type Ref, onMounted, onUnmounted, watch } from 'vue'
+import { inject, ref, type Ref, onMounted, onUnmounted, watch, computed, onBeforeUpdate } from 'vue'
 import SinglePanel from './SinglePanel.vue'
 import EnHomeContent from '@/content/en/home.json'
 import EsHomeContent from '@/content/es/home.json'
@@ -10,6 +10,9 @@ type Panel = {
   id: number
   title: string
   description: string
+  minimized: boolean
+  maximized: boolean
+  prevStyle: Partial<CSSStyleDeclaration> | null
   links: {
     text: string
     URL: string
@@ -25,6 +28,9 @@ type MinimizedPanel = {
 
 const language: Language = inject(languageKey, ref('en'))
 const panels = ref<Panel[]>([])
+const renderedPanels = computed(() => {
+  return panels.value.filter((pan) => !pan.minimized)
+})
 const dropBox = ref<HTMLElement | null>(null)
 const dropBoxRect = ref<DOMRect | null>(null)
 
@@ -35,6 +41,9 @@ watch(
       panels.value = EsHomeContent.panels.map((panel, ind) => {
         return {
           id: ind,
+          maximized: false,
+          minimized: false,
+          prevStyle: null,
           ...panel,
         }
       })
@@ -42,6 +51,9 @@ watch(
       panels.value = EnHomeContent.panels.map((panel, ind) => {
         return {
           id: ind,
+          maximized: false,
+          minimized: false,
+          prevStyle: null,
           ...panel,
         }
       })
@@ -50,39 +62,53 @@ watch(
   { immediate: true },
 )
 
-const panelRefs = ref<HTMLElement[]>([])
-const highestZIndex = ref(0)
+type PanelRef = {
+  ref: HTMLElement
+  id: number
+}
+const panelRefs = ref<PanelRef[]>([])
+const highestZIndex = ref(10)
 
-let initialized = false
-watch(
-  panelRefs,
-  (newValue) => {
-    if (!initialized) {
-      initialized = true
-      highestZIndex.value = newValue.length
-    }
-  },
-  { deep: true },
-)
+onBeforeUpdate(() => {
+  panelRefs.value = []
+})
 
-const setPanelRef: any = (panel: InstanceType<typeof SinglePanel | typeof PortraitPanel>) => {
+const setPanelRef: any = (
+  panel: InstanceType<typeof SinglePanel | typeof PortraitPanel>,
+  id: number,
+) => {
   if (panel && panel.container) {
-    panelRefs.value?.push(panel.container)
+    panelRefs.value?.push({
+      ref: panel.container,
+      id,
+    })
   }
 }
 
 // Automatic shuffling
+const shuffleFlag = computed(() => {
+  let flag = true
+  if (portrait.value.maximized) flag = false
+  for (const pan of panels.value) {
+    if (pan.maximized) {
+      flag = false
+      break
+    }
+  }
+  return flag
+})
 let shuffleInterval: number
 const startShuffle = () => {
   shuffleInterval = setInterval(() => {
     const len = panelRefs.value.length
+    if (len <= 2 || !shuffleFlag.value) return
     const firstInd = Math.floor(Math.random() * len)
     let secondInd = Math.floor(Math.random() * len)
     if (secondInd === firstInd) {
-      secondInd = secondInd + (1 % len)
+      secondInd = secondInd + 1 >= len ? 0 : secondInd + 1
     }
-    const firstPanel = panelRefs.value[firstInd]
-    const secondPanel = panelRefs.value[secondInd]
+    const firstPanel = panelRefs.value[firstInd].ref
+    const secondPanel = panelRefs.value[secondInd].ref
     const firstPanelComputedStyles = window.getComputedStyle(firstPanel)
     const secondPanelComputedStyles = window.getComputedStyle(secondPanel)
     const firstPanelStyles = {
@@ -100,7 +126,7 @@ const startShuffle = () => {
       firstPanel.style[styleProperty] = secondPanelStyles[styleProperty]
       secondPanel.style[styleProperty] = firstPanelStyles[styleProperty]
     }
-  }, 3000)
+  }, 2000)
 }
 const handleMouseOver = () => {
   clearInterval(shuffleInterval)
@@ -113,14 +139,114 @@ const handleMouseLeave = () => {
 
 // Button actions logic
 const minimizedPanels: Ref<MinimizedPanel[]> = ref([])
-const minimizePanel = (panelId: number): void => {
+const portrait = ref({
+  title: computed(() => {
+    return language.value === 'es' ? 'retrato' : 'portrait'
+  }),
+  description: computed(() => {
+    return language.value === 'es' ? '¡Hola! Este soy yo.' : 'Hi! This is me.'
+  }),
+  minimized: false,
+  maximized: false,
+  deleted: false,
+  prevStyle: <Partial<CSSStyleDeclaration> | null>null,
+})
+const minimizePanel = (panelId: number) => {
+  if (panelId === -1) {
+    minimizedPanels.value.push({
+      id: -1,
+      title: portrait.value.title,
+    })
+    portrait.value.minimized = true
+    return
+  }
+  const panelRef = panels.value.find((pan) => pan.id === panelId)
+  if (panelRef) {
+    panelRef.maximized = false
+    panelRef.minimized = true
+    minimizedPanels.value.push({
+      id: panelRef.id,
+      title: panelRef.title,
+    })
+  }
   console.log(`Minimized panel ${panelId}`)
 }
-const maximizePanel = (panelId: number): void => {
+const maximizePanel = (panelId: number) => {
   highestZIndex.value++
+
+  // special portrait case
+  if (panelId === -1) {
+    if (portrait.value.minimized) {
+      minimizedPanels.value = minimizedPanels.value.filter((pan) => pan.id !== -1)
+      portrait.value.minimized = false
+      return
+    }
+    const portraitRef = panelRefs.value.find((ref) => ref.id === -1)?.ref
+    if (!portraitRef) {
+      console.error('Portrait panel not found.')
+      return
+    }
+    if (portrait.value.maximized) {
+      if (portrait.value.prevStyle) {
+        Object.assign(portraitRef.style, portrait.value.prevStyle)
+        portrait.value.prevStyle = null
+      }
+    } else {
+      portrait.value.prevStyle = {
+        top: portraitRef.style.top,
+        left: portraitRef.style.left,
+        zIndex: portraitRef.style.zIndex,
+      }
+      portraitRef.style.top = '0%'
+      portraitRef.style.left = '10%'
+    }
+
+    portrait.value.maximized = !portrait.value.maximized
+    portraitRef.style.zIndex = `${highestZIndex.value}`
+    console.log(`Maximized portrait panel with Zindex ${highestZIndex.value}`)
+    return
+  }
+
+  // Normal Panels
+  const panelObj = panels.value.find((pan) => pan.id === panelId)
+  const panelRef = panelRefs.value.find((ref) => ref.id === panelId)?.ref
+
+  if (!panelObj) return console.error('Panel not found.')
+  if (panelObj.minimized) {
+    minimizedPanels.value = minimizedPanels.value.filter((pan) => pan.id !== panelId)
+    panelObj.minimized = false
+    return
+  }
+  if (!panelRef) return console.error('Panel ref not found')
+  if (panelObj.maximized) {
+    if (panelObj.prevStyle) {
+      Object.assign(panelRef.style, panelObj.prevStyle)
+      panelObj.prevStyle = null
+    }
+  } else {
+    panelObj.prevStyle = {
+      top: panelRef.style.top,
+      left: panelRef.style.left,
+      zIndex: panelRef.style.zIndex,
+    }
+    panelRef.style.top = '0%'
+    panelRef.style.left = '10%'
+  }
+
+  panelObj.maximized = !panelObj.maximized
+  panelRef.style.zIndex = `${highestZIndex.value}`
   console.log(`Maximized panel ${panelId} with Zindex ${highestZIndex.value}`)
 }
-const closePanel = (panelId: number): void => {
+
+const closePanel = (panelId: number) => {
+  const newMinimized = minimizedPanels.value.filter((pan) => pan.id !== panelId)
+  minimizedPanels.value = newMinimized
+  if (panelId === -1) {
+    portrait.value.deleted = true
+    return
+  }
+  const newPanels = panels.value.filter((pan) => pan.id !== panelId)
+  panels.value = newPanels
   console.log(`Closed panel ${panelId}`)
 }
 
@@ -158,18 +284,20 @@ const dragStart = (event: MouseEvent | TouchEvent, panel: HTMLElement | null): v
   event.preventDefault()
   if (!panel) return
   draggableElementPos.value.draggedElement = panel
-  panelRefs.value = panelRefs.value.map((panelRef) => {
-    if (panel === panelRef) {
-      panel.style.zIndex = `${highestZIndex.value + 1}`
+
+  panelRefs.value.forEach((panelRef) => {
+    if (panel === panelRef.ref) {
+      panelRef.ref.style.zIndex = `${highestZIndex.value + 1}`
       highestZIndex.value++
     }
-    return panel
   })
+
   const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX
   const clientY = 'touches' in event ? event.touches[0].clientY : event.clientY
   startX = clientX - draggableElementPos.value.x
   startY = clientY - draggableElementPos.value.y
   isDragging = true
+
   // Add listeners to the window to track movement and release
   window.addEventListener('mousemove', drag, { passive: false })
   window.addEventListener('mouseup', stopDrag)
@@ -234,17 +362,22 @@ onUnmounted(() => {
     <h1 class="about-title">{{ language === 'es' ? 'Sobre Mi' : 'About Me' }}</h1>
     <div class="visible-panels">
       <SinglePanel
-        v-for="panel in panels"
+        v-for="panel in renderedPanels"
         :key="panel.id"
         :panel-id="panel.id"
         :minimize="minimizePanel"
         :maximize="maximizePanel"
         :close="closePanel"
         :drag="dragStart"
-        :ref="setPanelRef"
+        :ref="
+          (e) => {
+            setPanelRef(e, panel.id)
+          }
+        "
         @mouseover="handleMouseOver"
         @mouseleave="handleMouseLeave"
         draggable="true"
+        :class="panel.maximized ? 'maximized' : ''"
       >
         <template #title>{{ panel.title }}</template>
         {{ panel.description }}
@@ -258,28 +391,48 @@ onUnmounted(() => {
         </template>
       </SinglePanel>
       <PortraitPanel
+        v-if="!portrait.minimized && !portrait.deleted"
         :panel-id="-1"
         :key="-1"
         :maximize="maximizePanel"
         :minimize="minimizePanel"
         :close="closePanel"
         :drag="dragStart"
-        :ref="setPanelRef"
+        :ref="
+          (e) => {
+            setPanelRef(e, -1)
+          }
+        "
         draggable="true"
         @mouseover="handleMouseOver"
         @mouseleave="handleMouseLeave"
+        :class="portrait.maximized ? 'maximized' : ''"
       >
-        <template #title>{{ language === 'es' ? 'retrato' : 'portrait' }}</template>
-        {{ language === 'es' ? '¡Hola! Este soy yo.' : 'Hi! This is me' }}
+        <template #title>{{ portrait.title }}</template>
+        {{ portrait.description }}
       </PortraitPanel>
     </div>
     <ul class="minimized-panels">
       <li v-for="panel in minimizedPanels" :key="panel.id">
         <div>
           <h2>{{ panel.title }}</h2>
-          <div>
-            <i class="pi pi-expand"></i>
-            <i class="pi pi-times"></i>
+          <div class="minimized-icon-container">
+            <i
+              @click="
+                () => {
+                  maximizePanel(panel.id)
+                }
+              "
+              class="pi pi-expand"
+            ></i>
+            <i
+              @click="
+                () => {
+                  closePanel(panel.id)
+                }
+              "
+              class="pi pi-times"
+            ></i>
           </div>
         </div>
       </li>
@@ -290,9 +443,51 @@ onUnmounted(() => {
 <style scoped>
 section {
   position: relative;
+  display: flex;
+  flex-direction: column;
   background-color: var(--container-color-background);
   margin-top: 2vh;
   min-height: 100vh;
+}
+.minimized-panels {
+  display: flex;
+  margin-top: auto;
+  border-top: solid 2px var(--hover-color-highlight);
+  list-style: none;
+  padding: 0px;
+}
+.minimized-panels h2 {
+  padding-bottom: 5px;
+}
+.minimized-panels li {
+  padding: 0rem 1rem;
+  border-right: solid 1px var(--hover-color-highlight);
+}
+.minimized-panels li > div {
+  display: flex;
+  gap: 1rem;
+}
+.minimized-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.minimized-icon-container i {
+  padding: 1rem;
+  cursor: pointer;
+}
+.minimized-icon-container i:hover {
+  background-color: var(--hover-color-highlight);
+}
+.minimized-icon-container i:last-of-type:hover {
+  background-color: #9b0b0b;
+}
+.maximized {
+  top: 0%;
+  left: 10%;
+  max-width: 100%;
+  width: 80%;
+  height: 100%;
 }
 .about-title {
   padding: 5rem;
@@ -301,7 +496,9 @@ section {
 .visible-panels article {
   transition:
     top var(--transition-time),
-    left var(--transition-time);
+    left var(--transition-time),
+    width 0.5s,
+    height 0.5s;
 }
 .visible-panels article:nth-child(1) {
   top: 10%;
