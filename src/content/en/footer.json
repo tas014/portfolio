@@ -1,0 +1,19 @@
+{
+  "title": "Let's get in touch. Build something awesome.",
+  "subtitle": "Feel free to reach out if you're looking for a dev, have a question, want to network or just have a chat.",
+  "socials": {
+    "title": "My socials",
+    "items": [
+      {
+        "name": "GitHub",
+        "icon": "pi pi-github",
+        "url": "https://github.com/tas014"
+      },
+      {
+        "name": "LinkedIn",
+        "icon": "pi pi-linkedin",
+        "url": "www.linkedin.com/in/franco-picco"
+      }
+    ]
+  }
+}

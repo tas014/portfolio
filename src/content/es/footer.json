@@ -1,0 +1,19 @@
+{
+  "title": "Pongamonos en contacto. Construyamos algo hermoso.",
+  "subtitle": "Sientete libre de contactarme si necesitas un desarrollador, tienes alguna pregunta, quieres agendarme o simplemente conversar un rato.",
+  "socials": {
+    "title": "Mis redes",
+    "items": [
+      {
+        "name": "GitHub",
+        "icon": "pi pi-github",
+        "url": "https://github.com/tas014"
+      },
+      {
+        "name": "LinkedIn",
+        "icon": "pi pi-linkedin",
+        "url": "https://linkedin.com/in/franco-picco"
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { swapLanguage, language, languageKey } from './stores/lang'
 import { provide } from 'vue'
+import FooterComponent from './components/FooterComponent.vue'
 
 provide(languageKey, language)
 </script>
@@ -19,9 +20,7 @@ provide(languageKey, language)
   <main>
     <RouterView />
   </main>
-  <footer>
-    <h3>My Footer</h3>
-  </footer>
+  <FooterComponent />
 </template>
 
 <style scoped>
