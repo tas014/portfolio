@@ -72,3 +72,7 @@ body {
 section {
   border-radius: 1rem;
 }
+
+main {
+  padding: 2rem;
+}

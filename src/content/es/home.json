@@ -1,9 +1,9 @@
 {
-  "hero": "¡Hola! Me llamo Franco, soy un aspirante a desarrollador front-end de 26 años. Tengo experiencia desarrollando sitios con React, Next, Vue y estoy constantemente buscando excusas para aprender una librería o un framework nuevo! A decir verdad, simplemente me encanta todo aspecto de programar. Sea juegos, algoritmos inteligentes para resolver problemas específicos, IA o modificar cosas para hacerlas una experiencia más personalizada, siempre me encuentro consistentemente jugueteando con *algún* tipo de código. ¡Bienvenidos a mi página!",
+  "hero": "¡Hola! Me llamo *Franco*, soy un aspirante a desarrollador front-end de *26 años*. Tengo experiencia ¬desarrollando sitios¬ con React, Next, Vue y estoy ~constantemente buscando~ excusas para aprender una *librería* o un ¬framework¬ nuevo! A decir verdad, simplemente me °encanta° todo aspecto de programar. Sea juegos, *algoritmos* inteligentes para resolver problemas específicos, IA o modificar cosas para hacerlas una experiencia más personalizada, siempre me encuentro consistentemente jugueteando con *algún* tipo de código. ¡~Bienvenidos~ a mi página!",
   "panels": [
     {
       "title": "experiencia",
-      "description": "",
+      "description": "He trabajado (trust me ¬bro¬)",
       "links": [
         {
           "text": "Mi curriculum",
@@ -15,7 +15,7 @@
     },
     {
       "title": "donde-trabajo",
-      "description": "Actualmente hago trabajo freelance (ya por 2 años) y doy clases voluntarias como profesor en la Universidad Maimonides, Argentina. Aquí es donde estudié, ¡Y hoy en día mis profesores se transformaron en mis colegas! Me encanta ayudar donde pueda, y soy un firme creyente de que un grupo de gente dedicada que se apoya mutuamente para perseguir un objetivo puede superar a cualquier genio.",
+      "description": "Actualmente hago *trabajo freelance* (ya por ~2 años~) y doy clases *voluntarias* como profesor en la Universidad Maimonides, Argentina. Aquí es donde °estudié°, ¡Y hoy en día mis profesores se transformaron en mis ¬colegas¬! Me encanta *ayudar* donde pueda, y soy un firme ~creyente~ de que un grupo de gente dedicada que se apoya mutuamente para perseguir un objetivo puede superar a cualquier °genio°.",
       "links": [
         {
           "text": "Mi-historia-laboral",
@@ -27,7 +27,7 @@
     },
     {
       "title": "mis-proyectos",
-      "description": "He completado 8 proyectos para clientes, aunque una buena parte fueron desarrollados con herramientas como Wordpress o TiendaNube, y si bien respeto a los desarrolladores que desean perseguir una carrera utilizando estas herramientas, no es lo que quiero para mí. Esto dicho, tengo 2 proyectos de los cuales estoy orgulloso y creo que son una gran demostración de mis habilidades: Uno es un ajedrez que demuestra manejo de lógica inherentemente compleja y manejo de UI, y la otra es una aplicación para calcular multas por energía suministrada en malas condiciones... ¡Y le ha ahorrado millones de dólares a la empresa! Si tienes tiempo, ¡Me encantaría contarte sobre ellos!",
+      "description": "He *completado 8 proyectos* para clientes, aunque una buena parte fueron desarrollados con herramientas como ¬Wordpress¬ o ¬TiendaNube¬, y si bien respeto a los desarrolladores que desean perseguir una carrera utilizando estas ~herramientas~, no es lo que quiero para °Mí°. Esto dicho, tengo *2 proyectos* de los cuales estoy ~orgulloso~ y creo que son una gran demostración de mis *habilidades*: Uno es un °ajedrez° que demuestra *manejo de lógica* inherentemente compleja y ¬manejo de UI¬, y la otra es una aplicación para calcular °multas° por energía suministrada en malas condiciones... ¡Y le ha ahorrado *millones* de dólares a la empresa! Si tienes tiempo, ¡Me encantaría contarte sobre ellos!",
       "links": [
         {
           "text": "mis-proyectos",
@@ -50,18 +50,13 @@
       ]
     },
     {
-      "title": "mis-hobbies",
-      "description": "Soy una mezcla un poco rara en cuanto a las actividades que hago en mi tiempo libre refiere: Va desde videojuegos a buscar bellas vistas naturales, jardinería y jugar con mis mascotas, ir al gimnasio y, por supuesto, modificar todo tipo de cosas en mi computadora. Amo la naturaleza, la belleza natural en los diferentes tonos de verde en las plantas, árboles, césped e incluso hongos han hecho del verde mi color favorito, y hay algo sencillamente calmante y enriquecedor que me da ver crecer y transformarse en una planta deslumbrante a algo que yo mismo he plantado. Estar en contacto con la naturaleza realmente hace una gran diferencia en la vida, especialmente cuando una buena parte de esta se encuentra atada a una computadora y confinada en ese espacio en el cerebro que permite abstraer cosas y descomponerlas en piezas que una computadora puede entender.",
-      "links": []
-    },
-    {
       "title": "mi-camino",
-      "description": "Llevo 6 años aprendiendo a programar ya, mi primera interacción con un editor de código fue en primer año de mi carrera en la Universidad Maimonides, Argentina. No estaba del todo seguro qué carrera quería seguir, por lo que me anoté en una que tenía varios aspectos que me interesaban, como diseño gráfico, edición multimedia (photoshop, premiere, aftereffects, etc), animación, Modelado 3D, y naturalmente, programación. Sin embargo, hubo un claro ganador una vez que comencé a aprender haciendo, ya que me enamoré inmediatamente con el control que tengo al escribir código y lo realmente poderosa que es una computadora. Solo puedo imaginar lo que alguien como Sir Isaac Newton hubiese logrado de haber tenido acceso a una, y estoy extremadamente entusiasmado de aprender todo lo que alguien que estuvo en mi nivel actual hace 10, 20, ¡O hasta 30 años o más! Actualmente estoy empezando a ver los frutos de mi esfuerzo; la gente con la que he trabajado me ha dicho cosas hermosas de su experiencia trabajando conmigo, ¡Y la universidad en la que estudié considera que soy suficientemente bueno para ser profesor universitario con 26 años!. Ahora me siento listo para entrar en el mundo del desarrollo constante, con habilidades que me permiten no sólo programar, ¡Sino comunicarme y entender las profesiones de todas las partes involucradas en la creación de fantásticos productos digitales!",
+      "description": "Llevo °6° años ¬aprendiendo¬ a programar ya. Mi primera interacción con un ¬editor de código¬ fue en primer año de mi carrera en la Universidad Maimonides, Argentina. No estaba del todo seguro qué carrera quería seguir, por lo que me anoté en una que tenía varios aspectos que me *interesaban*, como ¬diseño gráfico¬, ~edición multimedia~ (photoshop, premiere, aftereffects, etc), ¬animación¬, °Modelado 3D°, y naturalmente, *programación*. Sin embargo, hubo un claro ganador una vez que comencé a aprender haciendo, ya que me enamoré inmediatamente con el ¬control¬ que tengo al escribir código y lo realmente *poderosa* que es una computadora. Solo puedo imaginar lo que alguien como Sir Isaac Newton hubiese logrado de haber tenido acceso a una, y estoy ~extremadamente entusiasmado~ de *aprender* todo lo que alguien que estuvo en mi nivel actual hace ¬10¬, ~20~, ¡O hasta *30* años o más! Actualmente estoy empezando a ver los frutos de mi esfuerzo; la gente con la que he ¬trabajado¬ me ha dicho cosas *hermosas* de su experiencia trabajando conmigo, ¡Y la universidad en la que estudié considera que soy suficientemente bueno para ser ¬profesor¬ universitario con 26 años!. Ahora me siento listo para entrar en el mundo del ¬desarrollo constante¬, con *habilidades* que me permiten no sólo *programar*, ¡Sino ¬comunicarme¬ y entender las ~profesiones~ de todas las partes involucradas en la *creación* de fantásticos ¬productos¬ digitales!",
       "links": []
     },
     {
       "title": "tecnologías-y-lenguajes",
-      "description": "¡Soy bilingüe! Se hablar y escribir en Inglés y Español a muy buen nivel. En cuanto a desarrollo web, solo he utilizado tecnologías basadas en HTML/JS/CSS. He aquí una lista:",
+      "description": "¡Soy *bilingüe*! Se hablar y escribir en ¬Inglés¬ y *Español* a muy buen nivel. En cuanto a desarrollo web, he utilizado ¬varias¬ tecnologías basadas en °HTML°/~JS~/¬CSS¬. He aquí una *lista*:",
       "links": [
         {
           "text": "React",

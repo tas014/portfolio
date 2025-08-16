@@ -1,6 +1,11 @@
 <script setup lang="ts">
   import { inject, computed, ref, onUnmounted, onMounted } from 'vue';
   import { languageKey, type Language} from '@/stores/lang';
+import { styleText } from './utils/textFormat';
+
+  defineProps<{
+    description:string
+  }>()
 
   const language : Language = inject(languageKey, ref('en'));
   const titleText = computed(() => {
@@ -17,6 +22,16 @@
     ["rhombus", "50% 0%, 50% 0%, 100% 50%, 50% 100%, 0% 50%, 50% 0%"],
     ["trapezoid", "20% 0%, 20% 0%, 80% 0%, 100% 100%, 0% 100%, 20% 0%"]
   ]);
+  const heroImgs = ['/img/hero-1.webp','/img/hero-2.webp','/img/hero-3.webp']
+  const heroImgInd = ref(0);
+  let heroImgTimer : null | number = null;
+  let heroImgTimeout : null | number = null;
+  const cycleImages = () => {
+    if (heroImgTimeout) clearTimeout(heroImgTimeout)
+    heroImgTimeout = setTimeout(()=>{
+      heroImgInd.value = (heroImgInd.value + 1) % heroImgs.length
+    }, 1000)
+  }
 
   const currentShape = ref(shapesMap.get("pentagon"));
   let timeoutId : undefined | number;
@@ -32,10 +47,15 @@
       } else currentShape.value = shapesMap.get(keys[1]);
     },1000)
   }
-  onMounted(() => intervalId = setInterval(updateShape, 5000))
+  onMounted(() => {
+    intervalId = setInterval(updateShape, 5000)
+    heroImgTimer = setInterval(cycleImages, 5000)
+  })
   onUnmounted(() => {
     clearInterval(intervalId);
     clearTimeout(timeoutId);
+    if (heroImgTimeout)clearTimeout(heroImgTimeout);
+    if (heroImgTimer) clearInterval(heroImgTimer)
   })
 
 </script>
@@ -44,9 +64,9 @@
   <section class="hero-container">
     <div class="img-container">
       <div class="clipper"></div>
-      <img :style="{clipPath: `polygon(${currentShape})`}" class="hero-image" src="../../public/img/hero.jpeg" alt="a picture of Franco">
+      <img :style="{clipPath: `polygon(${currentShape})`}" class="hero-image" :src="heroImgs[heroImgInd]" alt="a picture of Franco">
       <div class="img-logo-container">
-        <img src="../../public/img/code.png" alt="a symbol representing coding">
+        <img src="/img/code.png" alt="a symbol representing coding">
       </div>
     </div>
     <div class="text-container">
@@ -56,11 +76,11 @@
         <i class="tag">{{ `</span>` }}</i>
       </span>
       <h1 v-html="titleText"></h1>
-      <p class="description">
-        <i class="tag">{{ `<p>` }} </i>
-        <slot></slot>
-        <i class="tag"> {{ `</p>` }}</i>
-      </p>
+      <div class="description">
+        <i class="tag">{{ `<p> ` }} </i>
+        <p v-html="styleText(description)"></p>
+        <i class="tag"> {{ ` </p>` }}</i>
+        </div>
     </div>
   </section>
 </template>
@@ -73,7 +93,7 @@
   }
   .hero-container {
     display: flex;
-    min-height: 70vh;
+    height: 70vh;
     justify-content: space-around;
     background-color: var(--container-color-background);
   }
@@ -110,5 +130,8 @@
   }
   .description {
     color: var(--color-secondary);
+  }
+  .description i, .description p {
+    display: inline;
   }
 </style>

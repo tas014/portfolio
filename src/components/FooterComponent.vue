@@ -20,7 +20,7 @@ const content = computed(() => {
         <a href="mailto:francopiccobusiness@gmail.com">francopiccobusiness@gmail.com</a>
       </div>
       <div class="profile-container">
-        <img src="/img/hero.jpeg" alt="a picture of Franco" />
+        <img src="/img/hero-1.webp" alt="a picture of Franco" />
       </div>
       <div class="socials-container">
         <h3>{{ content.socials.title }}</h3>
@@ -82,11 +82,16 @@ footer {
 .profile-container img:hover {
   transform: scale(1.2);
 }
+.socials-container > h3 {
+  display: flex;
+  justify-content: center;
+}
 .socials-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
   list-style: none;
   padding-left: 0px;
 }

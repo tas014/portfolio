@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { languageKey, type Language } from '@/stores/lang'
-import { inject, ref, type Ref, onMounted, onUnmounted, watch, computed, onBeforeUpdate } from 'vue'
+import {
+  inject,
+  ref,
+  type Ref,
+  onMounted,
+  onUnmounted,
+  watch,
+  computed,
+  onBeforeUpdate,
+  nextTick,
+  type ComputedRef,
+} from 'vue'
 import SinglePanel from './SinglePanel.vue'
 import EnHomeContent from '@/content/en/home.json'
 import EsHomeContent from '@/content/es/home.json'
@@ -12,13 +23,15 @@ type Panel = {
   description: string
   minimized: boolean
   maximized: boolean
-  prevStyle: Partial<CSSStyleDeclaration> | null
+  prevStyle: null | { top: string; left: string; zIndex: string }
   links: {
     text: string
     URL: string
     icon: string
     alt: string
   }[]
+  top: string
+  left: string
 }
 
 type MinimizedPanel = {
@@ -33,6 +46,14 @@ const renderedPanels = computed(() => {
 })
 const dropBox = ref<HTMLElement | null>(null)
 const dropBoxRect = ref<DOMRect | null>(null)
+const initialPositions: { [string: string]: { top: string; left: string } } = {
+  0: { top: '10%', left: '17%' },
+  1: { top: '11%', left: '45%' },
+  2: { top: '35%', left: '12%' },
+  3: { top: '35%', left: '60%' },
+  4: { top: '55%', left: '15%' },
+  '-1': { top: '31%', left: '35%' },
+}
 
 watch(
   language,
@@ -45,6 +66,8 @@ watch(
           minimized: false,
           prevStyle: null,
           ...panel,
+          top: initialPositions[ind].top,
+          left: initialPositions[ind].left,
         }
       })
     } else {
@@ -55,9 +78,16 @@ watch(
           minimized: false,
           prevStyle: null,
           ...panel,
+          top: initialPositions[ind].top,
+          left: initialPositions[ind].left,
         }
       })
     }
+    nextTick(() => {
+      setTimeout(() => {
+        setInitialPositions()
+      }, 200)
+    })
   },
   { immediate: true },
 )
@@ -85,6 +115,27 @@ const setPanelRef: any = (
   }
 }
 
+const setInitialPositions = () => {
+  const portraitRef = panelRefs.value.find((ref) => ref.id === -1)?.ref
+  if (portraitRef) {
+    const rect = portraitRef.getBoundingClientRect()
+    if (dropBoxRect.value) {
+      portrait.value.top = `${rect.top - dropBoxRect.value.top}px`
+      portrait.value.left = `${rect.left - dropBoxRect.value.left}px`
+    }
+  }
+  panels.value.forEach((panel) => {
+    const panelRef = panelRefs.value.find((ref) => ref.id === panel.id)?.ref
+    if (panelRef) {
+      const rect = panelRef.getBoundingClientRect()
+      if (dropBoxRect.value) {
+        panel.top = `${rect.top - dropBoxRect.value.top}px`
+        panel.left = `${rect.left - dropBoxRect.value.left}px`
+      }
+    }
+  })
+}
+
 // Automatic shuffling
 const shuffleFlag = computed(() => {
   let flag = true
@@ -98,6 +149,7 @@ const shuffleFlag = computed(() => {
   return flag
 })
 let shuffleInterval: number
+let shuffleTimeout: number
 const startShuffle = () => {
   shuffleInterval = setInterval(() => {
     const len = panelRefs.value.length
@@ -107,10 +159,18 @@ const startShuffle = () => {
     if (secondInd === firstInd) {
       secondInd = secondInd + 1 >= len ? 0 : secondInd + 1
     }
-    const firstPanel = panelRefs.value[firstInd].ref
-    const secondPanel = panelRefs.value[secondInd].ref
-    const firstPanelComputedStyles = window.getComputedStyle(firstPanel)
-    const secondPanelComputedStyles = window.getComputedStyle(secondPanel)
+    const firstPanelRef = panelRefs.value[firstInd]
+    const firstPanelObj =
+      firstPanelRef.id === -1
+        ? portrait.value
+        : panels.value.find((pan) => pan.id === firstPanelRef.id)
+    const secondPanelRef = panelRefs.value[secondInd]
+    const secondPanelObj =
+      secondPanelRef.id === -1
+        ? portrait.value
+        : panels.value.find((pan) => pan.id === secondPanelRef.id)
+    const firstPanelComputedStyles = window.getComputedStyle(firstPanelRef.ref)
+    const secondPanelComputedStyles = window.getComputedStyle(secondPanelRef.ref)
     const firstPanelStyles = {
       top: firstPanelComputedStyles.top,
       left: firstPanelComputedStyles.left,
@@ -121,11 +181,17 @@ const startShuffle = () => {
       left: secondPanelComputedStyles.left,
       zIndex: secondPanelComputedStyles.zIndex,
     }
-    for (const key in firstPanelStyles) {
-      const styleProperty = key as 'top' | 'left' | 'zIndex'
-      firstPanel.style[styleProperty] = secondPanelStyles[styleProperty]
-      secondPanel.style[styleProperty] = firstPanelStyles[styleProperty]
+    if (firstPanelObj && secondPanelObj) {
+      firstPanelObj.top = secondPanelStyles.top
+      firstPanelObj.left = secondPanelStyles.left
+      firstPanelRef.ref.style.zIndex = secondPanelStyles.zIndex
+      secondPanelObj.top = firstPanelStyles.top
+      secondPanelObj.left = firstPanelStyles.left
+      secondPanelRef.ref.style.zIndex = firstPanelStyles.zIndex
     }
+    shuffleTimeout = setTimeout(() => {
+      constrainWithinBounds(firstPanelRef.ref, secondPanelRef.ref)
+    }, 500)
   }, 2000)
 }
 const handleMouseOver = () => {
@@ -148,17 +214,37 @@ const isPanelMaximized = computed(() => {
   }
   return false
 })
-const portrait = ref({
+
+type Portrait = {
+  id: number
+  title: ComputedRef<string>
+  description: ComputedRef<string>
+  minimized: boolean
+  maximized: boolean
+  deleted: boolean
+  top: string
+  left: string
+  prevStyle: {
+    top: string
+    left: string
+    zIndex: string
+  } | null
+}
+
+const portrait = ref<Portrait>({
+  id: -1,
   title: computed(() => {
     return language.value === 'es' ? 'retrato' : 'portrait'
   }),
   description: computed(() => {
-    return language.value === 'es' ? '¡Hola! Este soy yo.' : 'Hi! This is me.'
+    return language.value === 'es' ? '¡Hola! Este soy *Yo*.' : 'Hi! This is *Me*.'
   }),
   minimized: false,
   maximized: false,
   deleted: false,
-  prevStyle: <Partial<CSSStyleDeclaration> | null>null,
+  top: initialPositions['-1'].top,
+  left: initialPositions['-1'].left,
+  prevStyle: <null | { top: string; left: string; zIndex: string }>null,
 })
 const minimizePanel = (panelId: number) => {
   if (panelId === -1) {
@@ -180,14 +266,20 @@ const minimizePanel = (panelId: number) => {
   }
   console.log(`Minimized panel ${panelId}`)
 }
+let maxMinTimeout: null | number = null
 const maximizePanel = (panelId: number) => {
   highestZIndex.value++
-
+  if (maxMinTimeout) clearTimeout(maxMinTimeout)
   // special portrait case
   if (panelId === -1) {
     if (portrait.value.minimized) {
       minimizedPanels.value = minimizedPanels.value.filter((pan) => pan.id !== -1)
       portrait.value.minimized = false
+      const portraitRef = panelRefs.value.find((pan) => pan.id === -1)?.ref
+      if (portraitRef)
+        maxMinTimeout = setTimeout(() => {
+          constrainWithinBounds(portraitRef)
+        }, 500)
       return
     }
     const portraitRef = panelRefs.value.find((ref) => ref.id === -1)?.ref
@@ -197,21 +289,26 @@ const maximizePanel = (panelId: number) => {
     }
     if (portrait.value.maximized) {
       if (portrait.value.prevStyle) {
-        Object.assign(portraitRef.style, portrait.value.prevStyle)
+        portraitRef.style.zIndex = portrait.value.prevStyle.zIndex
+        portrait.value.top = portrait.value.prevStyle.top
+        portrait.value.left = portrait.value.prevStyle.left
         portrait.value.prevStyle = null
       }
     } else {
       portrait.value.prevStyle = {
-        top: portraitRef.style.top,
-        left: portraitRef.style.left,
+        top: portrait.value.top,
+        left: portrait.value.left,
         zIndex: portraitRef.style.zIndex,
       }
-      portraitRef.style.top = '5%'
-      portraitRef.style.left = '10%'
+      portrait.value.top = '5%'
+      portrait.value.left = '10%'
     }
 
     portrait.value.maximized = !portrait.value.maximized
     portraitRef.style.zIndex = `${highestZIndex.value}`
+    maxMinTimeout = setTimeout(() => {
+      constrainWithinBounds(portraitRef)
+    }, 500)
     console.log(`Maximized portrait panel with Zindex ${highestZIndex.value}`)
     return
   }
@@ -224,26 +321,35 @@ const maximizePanel = (panelId: number) => {
   if (panelObj.minimized) {
     minimizedPanels.value = minimizedPanels.value.filter((pan) => pan.id !== panelId)
     panelObj.minimized = false
+    const currentPanelRef = panelRefs.value.find((pan) => pan.id === panelId)?.ref
+    if (currentPanelRef)
+      maxMinTimeout = setTimeout(() => {
+        constrainWithinBounds(currentPanelRef)
+      }, 500)
     return
   }
   if (!panelRef) return console.error('Panel ref not found')
   if (panelObj.maximized) {
     if (panelObj.prevStyle) {
-      Object.assign(panelRef.style, panelObj.prevStyle)
+      panelRef.style.zIndex = panelObj.prevStyle.zIndex
+      panelObj.top = panelObj.prevStyle.top
+      panelObj.left = panelObj.prevStyle.left
       panelObj.prevStyle = null
     }
   } else {
     panelObj.prevStyle = {
-      top: panelRef.style.top,
-      left: panelRef.style.left,
+      top: panelObj.top,
+      left: panelObj.left,
       zIndex: panelRef.style.zIndex,
     }
-    panelRef.style.top = '5%'
-    panelRef.style.left = '10%'
+    panelObj.top = '5%'
+    panelObj.left = '10%'
   }
-
   panelObj.maximized = !panelObj.maximized
   panelRef.style.zIndex = `${highestZIndex.value}`
+  maxMinTimeout = setTimeout(() => {
+    constrainWithinBounds(panelRef)
+  }, 500)
   console.log(`Maximized panel ${panelId} with Zindex ${highestZIndex.value}`)
 }
 
@@ -259,10 +365,13 @@ const closePanel = (panelId: number) => {
   console.log(`Closed panel ${panelId}`)
 }
 
-// Dragging logic
 const updateDropBoxRect = () => {
   if (dropBox.value) dropBoxRect.value = dropBox.value?.getBoundingClientRect()
+  for (const el of panelRefs.value) {
+    constrainWithinBounds(el.ref)
+  }
 }
+// Dragging logic
 
 type Draggable = {
   x: number
@@ -292,6 +401,7 @@ let isDragging = false
 const dragStart = (event: MouseEvent | TouchEvent, panel: HTMLElement | null): void => {
   event.preventDefault()
   if (!panel || isPanelMaximized.value) return
+  updateDropBoxRect()
   resetDraggableElementPos()
   draggableElementPos.value.draggedElement = panel
 
@@ -332,22 +442,7 @@ const stopDrag = () => {
   // Constrain final position
   if (draggableElementPos.value.draggedElement && dropBoxRect.value) {
     const element = draggableElementPos.value.draggedElement
-    const elementRect = element.getBoundingClientRect()
-
-    // Calculate final top and left positions relative to the container
-    let finalLeft = elementRect.left - dropBoxRect.value.left
-    let finalTop = elementRect.top - dropBoxRect.value.top
-
-    // Constrain the final position within the container's bounds
-    finalLeft = Math.floor(
-      Math.max(0, Math.min(finalLeft, dropBoxRect.value.width - elementRect.width)),
-    )
-    finalTop = Math.floor(
-      Math.max(0, Math.min(finalTop, dropBoxRect.value.height - elementRect.height)),
-    )
-
-    element.style.top = `${finalTop}px`
-    element.style.left = `${finalLeft}px`
+    constrainWithinBounds(element)
   }
   resetDraggableElementPos()
   // Remove listeners to prevent memory leaks
@@ -356,14 +451,45 @@ const stopDrag = () => {
   window.removeEventListener('touchmove', drag)
   window.removeEventListener('touchend', stopDrag)
 }
+
+const constrainWithinBounds = (...elements: HTMLElement[]): void => {
+  if (elements.length === 0) return
+  // Constrain final position
+  for (const el of elements) {
+    const elementRef = panelRefs.value.find((pan) => pan.ref === el)
+    const elementObj =
+      elementRef?.id === -1 ? portrait.value : panels.value.find((pan) => pan.id === elementRef?.id)
+    if (dropBoxRect.value && elementObj) {
+      const elementRect = el.getBoundingClientRect()
+
+      // Calculate final top and left positions relative to the container
+      let finalLeft = elementRect.left - dropBoxRect.value.left
+      let finalTop = elementRect.top - dropBoxRect.value.top
+
+      // Constrain the final position within the container's bounds
+      finalLeft = Math.floor(
+        Math.max(0, Math.min(finalLeft, dropBoxRect.value.width - elementRect.width)),
+      )
+      finalTop = Math.floor(
+        Math.max(0, Math.min(finalTop, dropBoxRect.value.height - elementRect.height)),
+      )
+
+      elementObj.top = `${finalTop}px`
+      elementObj.left = `${finalLeft}px`
+    }
+  }
+}
 onMounted(() => {
   window.addEventListener('resize', updateDropBoxRect)
   updateDropBoxRect()
   handleMouseLeave()
+  setInitialPositions()
 })
 onUnmounted(() => {
   window.removeEventListener('resize', updateDropBoxRect)
   clearInterval(shuffleInterval)
+  if (maxMinTimeout) clearTimeout(maxMinTimeout)
+  clearTimeout(shuffleTimeout)
 })
 </script>
 
@@ -384,6 +510,11 @@ onUnmounted(() => {
         :maximize="maximizePanel"
         :close="closePanel"
         :drag="dragStart"
+        :description="panel.description"
+        :style="{
+          top: panel.top,
+          left: panel.left,
+        }"
         :ref="
           (e) => {
             setPanelRef(e, panel.id)
@@ -394,7 +525,6 @@ onUnmounted(() => {
         :class="panel.maximized ? 'maximized' : ''"
       >
         <template #title>{{ panel.title }}</template>
-        {{ panel.description }}
         <template #links>
           <li v-for="link in panel.links" :key="link.text + link.alt">
             <a :href="link.URL" target="_blank" rel="noopener noreferrer">
@@ -412,6 +542,11 @@ onUnmounted(() => {
         :minimize="minimizePanel"
         :close="closePanel"
         :drag="dragStart"
+        :description="portrait.description"
+        :style="{
+          top: portrait.top,
+          left: portrait.left,
+        }"
         :ref="
           (e) => {
             setPanelRef(e, -1)
@@ -422,7 +557,6 @@ onUnmounted(() => {
         :class="portrait.maximized ? 'maximized' : ''"
       >
         <template #title>{{ portrait.title }}</template>
-        {{ portrait.description }}
       </PortraitPanel>
     </div>
     <ul class="minimized-panels">
@@ -525,40 +659,5 @@ section {
     left var(--transition-time),
     width 0.5s,
     height 0.5s;
-}
-.visible-panels article:nth-child(1) {
-  top: 10%;
-  left: 17%;
-  z-index: 1;
-}
-.visible-panels article:nth-child(2) {
-  top: 11%;
-  left: 45%;
-  z-index: 2;
-}
-.visible-panels article:nth-child(3) {
-  top: 35%;
-  left: 12%;
-  z-index: 3;
-}
-.visible-panels article:nth-child(4) {
-  top: 35%;
-  left: 65%;
-  z-index: 4;
-}
-.visible-panels article:nth-child(5) {
-  top: 55%;
-  left: 15%;
-  z-index: 5;
-}
-.visible-panels article:nth-child(6) {
-  top: 55%;
-  left: 50%;
-  z-index: 6;
-}
-.visible-panels article:nth-child(7) {
-  top: 31%;
-  left: 35%;
-  z-index: 7;
 }
 </style>

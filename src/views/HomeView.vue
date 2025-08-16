@@ -14,9 +14,7 @@ const spanishHeroContent = EsHomeContent.hero
 
 <template>
   <main>
-    <HomeHero>
-      {{ language === 'en' ? englishHeroContent : spanishHeroContent }}
-    </HomeHero>
+    <HomeHero :description="language === 'en' ? englishHeroContent : spanishHeroContent" />
     <PanelsSection>
       {{ language === 'en' ? englishHeroContent : spanishHeroContent }}
     </PanelsSection>

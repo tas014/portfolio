@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { styleText } from './utils/textFormat'
 defineProps<{
   panelId: number
   minimize: (id: number) => void
   maximize: (id: number) => void
   close: (id: number) => void
   drag: (event: MouseEvent | TouchEvent, container: HTMLElement | null) => void
+  description: string
 }>()
 const container = ref<HTMLElement | null>(null)
 defineExpose({ container })
@@ -71,14 +73,13 @@ defineExpose({ container })
     </div>
     <div class="text-container">
       <p
+        v-html="styleText(description)"
         @click="
           (e) => {
             e.stopPropagation()
           }
         "
-      >
-        <slot> Default text </slot>
-      </p>
+      ></p>
       <ul class="links-container">
         <slot name="links"></slot>
       </ul>
@@ -91,7 +92,7 @@ defineExpose({ container })
   position: absolute;
   background-color: var(--color-background);
   border-radius: 1rem;
-  max-width: 30vw;
+  width: 70rem;
   border: 1px solid var(--hover-color-highlight);
 }
 .links-container {
@@ -164,5 +165,17 @@ defineExpose({ container })
 .title-container h2,
 .text-container {
   user-select: text;
+}
+.green-text {
+  color: #a0ea97;
+}
+.red-text {
+  color: #a55b62;
+}
+.purple-text {
+  color: #7d6ac1;
+}
+.yellow-text {
+  color: #cab57d;
 }
 </style>

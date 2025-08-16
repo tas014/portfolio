@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { styleText } from './utils/textFormat'
 defineProps<{
   panelId: number
   minimize: (id: number) => void
   maximize: (id: number) => void
   close: (id: number) => void
   drag: (event: MouseEvent | TouchEvent, container: HTMLElement | null) => void
+  description: string
 }>()
 const container = ref<HTMLElement | null>(null)
 defineExpose({ container })
@@ -62,8 +64,8 @@ defineExpose({ container })
       </div>
     </div>
     <div class="portrait-container">
-      <img src="/img/hero.jpeg" alt="a portrait of Franco" />
-      <slot></slot>
+      <img src="/img/portrait.webp" alt="a portrait of Franco" />
+      <p v-html="styleText(description)"></p>
       <div>
         <div class="contacts-container">
           <a href="https://github.com/tas014" target="_blank" rel="noopener noreferrer">
@@ -124,7 +126,8 @@ defineExpose({ container })
   padding-bottom: 1rem;
 }
 .portrait-container img {
-  width: 60rem;
+  width: 100%;
+  object-fit: cover;
   margin-bottom: 1rem;
 }
 </style>
