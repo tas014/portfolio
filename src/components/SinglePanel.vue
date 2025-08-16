@@ -90,6 +90,8 @@ defineExpose({ container })
 <style>
 .panel-container {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-background);
   border-radius: 1rem;
   width: 70rem;
@@ -156,6 +158,7 @@ defineExpose({ container })
 
 .text-container {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;
   padding: 2rem 3rem;

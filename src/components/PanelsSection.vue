@@ -264,7 +264,6 @@ const minimizePanel = (panelId: number) => {
       title: panelRef.title,
     })
   }
-  console.log(`Minimized panel ${panelId}`)
 }
 let maxMinTimeout: null | number = null
 const maximizePanel = (panelId: number) => {
@@ -293,6 +292,9 @@ const maximizePanel = (panelId: number) => {
         portrait.value.top = portrait.value.prevStyle.top
         portrait.value.left = portrait.value.prevStyle.left
         portrait.value.prevStyle = null
+        maxMinTimeout = setTimeout(() => {
+          constrainWithinBounds(portraitRef)
+        }, 500)
       }
     } else {
       portrait.value.prevStyle = {
@@ -306,10 +308,6 @@ const maximizePanel = (panelId: number) => {
 
     portrait.value.maximized = !portrait.value.maximized
     portraitRef.style.zIndex = `${highestZIndex.value}`
-    maxMinTimeout = setTimeout(() => {
-      constrainWithinBounds(portraitRef)
-    }, 500)
-    console.log(`Maximized portrait panel with Zindex ${highestZIndex.value}`)
     return
   }
 
@@ -335,6 +333,9 @@ const maximizePanel = (panelId: number) => {
       panelObj.top = panelObj.prevStyle.top
       panelObj.left = panelObj.prevStyle.left
       panelObj.prevStyle = null
+      maxMinTimeout = setTimeout(() => {
+        constrainWithinBounds(panelRef)
+      }, 500)
     }
   } else {
     panelObj.prevStyle = {
@@ -347,10 +348,6 @@ const maximizePanel = (panelId: number) => {
   }
   panelObj.maximized = !panelObj.maximized
   panelRef.style.zIndex = `${highestZIndex.value}`
-  maxMinTimeout = setTimeout(() => {
-    constrainWithinBounds(panelRef)
-  }, 500)
-  console.log(`Maximized panel ${panelId} with Zindex ${highestZIndex.value}`)
 }
 
 const closePanel = (panelId: number) => {
@@ -362,14 +359,10 @@ const closePanel = (panelId: number) => {
   }
   const newPanels = panels.value.filter((pan) => pan.id !== panelId)
   panels.value = newPanels
-  console.log(`Closed panel ${panelId}`)
 }
 
 const updateDropBoxRect = () => {
   if (dropBox.value) dropBoxRect.value = dropBox.value?.getBoundingClientRect()
-  for (const el of panelRefs.value) {
-    constrainWithinBounds(el.ref)
-  }
 }
 // Dragging logic
 
@@ -454,6 +447,7 @@ const stopDrag = () => {
 
 const constrainWithinBounds = (...elements: HTMLElement[]): void => {
   if (elements.length === 0) return
+  updateDropBoxRect()
   // Constrain final position
   for (const el of elements) {
     const elementRef = panelRefs.value.find((pan) => pan.ref === el)
