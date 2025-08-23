@@ -15,7 +15,7 @@ const content = computed(() => {
   <footer>
     <div class="main-container">
       <div class="titles-container">
-        <h2 v-html="content.title"></h2>
+        <h2 v-html="content.title" class="footer-title"></h2>
         <h4>{{ content.subtitle }}</h4>
         <a href="mailto:francopiccobusiness@gmail.com">francopiccobusiness@gmail.com</a>
       </div>
@@ -56,6 +56,10 @@ footer {
   margin: 5rem 0rem;
   background-color: var(--container-color-background);
   justify-content: center;
+}
+.footer-title {
+  font-size: var(--primary-title);
+  font-weight: bold;
 }
 .main-container {
   width: 80%;
