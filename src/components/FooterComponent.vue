@@ -106,7 +106,8 @@ footer {
   align-items: center;
 }
 .blue-sky-logo {
-  filter: invert(29%) sepia(98%) saturate(1529%) hue-rotate(194deg) brightness(107%) contrast(107%);
+  filter: brightness(0) saturate(100%) invert(64%) sepia(35%) saturate(3470%) hue-rotate(115deg)
+    brightness(86%) contrast(102%);
 }
 
 @media (max-width: 1800px) {

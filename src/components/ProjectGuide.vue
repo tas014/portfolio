@@ -63,7 +63,7 @@ img,
 pre {
   margin-bottom: 2rem;
   max-width: 100%;
-  width: clamp(50rem, 25%, 100%);
+  width: clamp(40rem, 25%, 100%);
 }
 .project-title {
   font-size: var(--primary-title);

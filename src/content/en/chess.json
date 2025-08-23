@@ -7,8 +7,8 @@
       {
         "title": "The Beginning",
         "reference": {
-          "url": "",
-          "alt": "",
+          "url": "/img/chal-accepted.png",
+          "alt": "challenge accepted",
           "code": ""
         },
         "description": "This project started as a dare by my sophomore college professor. I wanted to make a chess app for my final assignment but he insisted it would be too difficult and way above what was expected of us at the time, so after some back and forth we agreed that if I could bring working pieces (without legal move checking) to the next class, which was 3 days later, then I could take on this project as my final assignment. And bring them I did! This was the start of a beautiful, albeit bumpy journey. I was still new to a lot of programming concepts such as reference vs primitive types, shallow copies of bidimensional arrays, checking for dynamic index limiting, and there were further steps such as simulating board states for many of chess' rules, which we will cover. Let's get started!"
@@ -16,8 +16,8 @@
       {
         "title": "The game",
         "reference": {
-          "url": "",
-          "alt": "",
+          "url": "/img/knight.webp",
+          "alt": "image of a chess knight",
           "code": ""
         },
         "description": "The way i chose to represent the board is by utilizing an 8x8 bidimensional array, with common piece values to represent the pieces. This means 1 is a white pawn while -1 is a black pawn, 3 is a knight, 4 is a bishop, 5 is a rook, 9 is a queen and I assigned an arbitrary 8 value to the King, since the King doesn't have a piece value per se. Coming up with the move logic was simple enough, since pieces have a determined pattern! Pawns move vertically in one direction depending on their color [+-1 or +-2, 0], Bishops move diagonally so say [+-3, +-3] moves it 3 squares towards any diagonal, as long as theres an equal increase in both coordinates it should be a diagonal. Rooks can just leave their x or y axis static and move along the other for vertical or horizontal movement, so say [0 ,+-5] moves it horizontally 5 squares, Knights always combine a 1 and 2 in their corresponding coordinates, so [+-2, +-1] and finally a Queen and King are just a Rook + a Bishop, the Queen having unlimited range across the board and the King being limited to 1 square from its position. Simple enough right? Chessboard done! ...well not quite. We now have to start applying chess rules, and there's an order to how you need to implement them. For example, if we wanted to implement checkmating logic, we first would need to know that A: The King is currently in check and B: There is no legal move that would lead to a boardstate where the King is no longer in check. So we first need to figure out checking logic. Off the piece logic i just described, every piece behaves like a knight in that they can jump right over any piece in the board (very overpowered) and can even take same colored pieces, so we first need to get the pieces to know the limits to their available moves since, as it turns out, chess has a lot of rules."
@@ -34,8 +34,8 @@
       {
         "title": "The Runner Up for Most Complex Piece Logic: Pawns",
         "reference": {
-          "url": "",
-          "alt": "",
+          "url": "/img/promotion.webp",
+          "alt": "a clip showing pawn promotion",
           "code": ""
         },
         "description": "If you like playing chess, you probably haven't realized how completely arbitrary some of the pawn logic is in the game. No other piece can take in a different way than they move, no other piece can take a piece in a square where there is none (en passant), the moves it can play varies depending on whether it's already been moved or not, and most importantly, no other piece can become a completely different piece. Pawn logic already adds a very real layer of UI complexity and refactoring of your structures, since now we need to be able to check whether a pawn has already moved, whether it's next to a pawn that specifically moved for the first time last turn, belongs to the opposing color and is horizontally adjacent to the pawn you are trying to figure out the moves for, and finally you need to break down the updating of the board state into steps so you can implement a UI for choosing what a pawn can be promoted to should it reach the final rank of it's direction. This in-between step will become very relevant later on, but for now I was coding this in vanilla HTML/JS/CSS so imperative DOM modification made this a lot easier than it would eventually become when taking this project to a React environment. All of this being said, it can be a bit challenging but it's honestly not that bad. Reach final rank => open promotion menu => update board. Check for diagonal captures instead of normal movement like the rest of the pieces, change starting pawn value to +-2 to indicate a pawn that hasn't moved (update it to 1 once it does) and store the data of the piece that last moved (what the piece is before it moved, and where it moved to). If this was an opposite colored pawn that is horizontally adjacent [0, +-1] then it can be taken en passant."
@@ -43,8 +43,8 @@
       {
         "title": "The King is Everywhere",
         "reference": {
-          "url": "",
-          "alt": "",
+          "url": "/img/castling.webp",
+          "alt": "a clip of the king castling",
           "code": ""
         },
         "description": "Now that we have truly finished up the logic for how our pieces generate legal moves, it is now time for us to check whether it indeed is a legal move. If it sounds confusing, don't worry. What I mean is that chess has a rule that says the King cannot be left in check upon finishing your move, so whether or not a piece can legally move is not entirely up to it's own move generation logic. How can you know if a piece moving would make your King be in check though? If you are playing chess over the board, you would look at possible diagonals or pieces that can see the piece you want to move, and picture what the board would look like if that piece was elsewhere. So that's exactly what we're gonna do! We have raw movement logic down, so we can actually check what the enemy pieces can and cannot see. How to actually implement this is not that simple though, so it will have it's own segment breaking it down. \nOther than being involved in the legality of every possible move, the King also apparently has superpowers! And by superpowers I mean more arbitrary rules that don't quite follow the logic every other piece is bound to. The king can castle itself jumping over a Rook and having it move as well for that turn, making two pieces move at once, but this is also only possible if the opposing colored pieces cannot see any part of the path the king would need to take to get there, and also the King and the Rook it's trying to castle with must not have moved previously. Luckily for us, pawns have already made us solve one part of this issue earlier, so we change the Rooks' initial value to +-6 and update to +-5 once they have moved, and the King to +-10 since 9 is already taken by Queens. This way, we can at least now check whether there's any piece in the way between the King and its Rooks, as well as knowing whether or not they have moved previously."
@@ -52,8 +52,8 @@
       {
         "title": "Chess is Very Much a Simulation. Many, actually.",
         "reference": {
-          "url": "",
-          "alt": "",
+          "url": "/img/restricted-movement.webp",
+          "alt": "a clip showing restricted piece movement",
           "code": ""
         },
         "description": "Ok, so this is the part where thinking of a real chessboard won't help that much, since we now have to figure out how to make a computer check whether a move would make the King be in check or not, as well as knowing what exactly the enemy pieces can see on different given points. Lets recap the issues our app still has: We don't know whether the King is in check, we don't know whether a move is truly legal, and we can't check for illegal castling logic. In order to fix this, we need to take a page straight from 'The Matrix' and embrace simulation. Don't know whether a piece moving will make the King be in check? Simply emulate a board state where that piece is gone! This will require some slight refactoring in our piece logic to let them know whether we are emulating boardstates or not, so that we can have the simulations trigger when a user clicks on a piece but avoid an infinite recursive loop if we are checking for emulated board states. So we indicate we are emulating boards, store the real board state, remove the piece that was clicked from our emulated board, and generate every legal move our opponent could make in said emulated board. If our King's coordinates matches one of the opposing pieces' legal moves, then it can be taken, or in other words, is in check. So we know this move is illegal then! ...Well, again, not quite. A piece might be illegal to move some ways but legal in some others: A Rook may be staring at a Queen that is blocking for it's King, but if we just pretend the Queen isn't there then we'll make our program think ANY move the Queen could make is illegal, when in fact it should be able to move across the same lane the Rook that is staring at it, or even take said Rook. So this approach nails the principle of emulating alternative board states where our pieces are positioned differently and generating the opponent's moves, but doesn't quite fit the shoe completely.\nSo if not simulating removing it, how about moving it? This is a lot better! We can even do some slight optimization by breaking emulated board states early if we see moving a piece in certain direction would make the king be in check, since there is no case where moving diagonally, horizontally or vertically across an axis would make the king be in check after moving 1 square and not be in check after moving further down that lane. I chose not to do this though, since i thought it could be fun to implement new pieces outside of traditional chess where this might be a possibility. Great! We now can emulate a board state for every move a piece would be able to make were we not to ask about how the King is doing. All that's left is to store the moves that cause boards where the king would'nt be in check and voilá! That's our legal move check for standard move generation. All that's left is to use the same emulation logic to also keep track of the squares the opposing pieces control in order to check whether a square in the castling path is seen by them or not. This also sets up an alley-oop for implementing checkmate and stalemate logic! All we have to do is, using our newly added emulation logic, check whether after a move is made the pieces whose turn would now be have any legal moves available, and if the answer is no, we check whether or not the King is currently in check. If it's in check and there are no legal moves, the game ends with victory by checkmate, and if the King isn't in check but has no legal moves, the game ends with a draw by stalemate."
@@ -70,8 +70,8 @@
       {
         "title": "Animating and Sources of Truth",
         "reference": {
-          "url": "",
-          "alt": "",
+          "url": "/img/piece-animation.webp",
+          "alt": "a clip showing piece animations",
           "code": ""
         },
         "description": "This is, by far and with absolutely no competition, the part that had me refactoring my code the most. The main issue with transitioning from vanilla JS to a framework is that when all you have is a hammer, everything looks like a nail. What I mean by this is I became very accustomed to JS' imperative DOM handling, and I struggled a lot to wrap my head around separating sources of truth for my logical game state and my visual game state. This led to having to do some major refactoring around piece rendering logic, as well as coming up with mathematical formulas to properly align the pieces across their container since I wasn't having each square render it's game content directly anymore. Squares would still have the clicking logic, but pieces would now update visually separately from the game matrix. It probably seems weird that I'm describing this as the part that I struggled with the most throughout the process of making this project and I don't really have too much else to say about it, but it's the truth: Sometimes we struggle with something because of a mental block or personal predisposition way more than we do because of inherent logical complexity. I did manage to get it down, animate my pieces, separate the game logic from the visual logic and made a (in my oppinion) really cool functional chessboard that truly helped me learn a lot about programming, which is something I'm fascinated by and I have high hopes for it to change my life."
