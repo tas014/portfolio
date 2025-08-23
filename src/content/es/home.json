@@ -3,7 +3,7 @@
   "panels": [
     {
       "title": "experiencia",
-      "description": "He trabajado (trust me ¬bro¬)",
+      "description": "He trabajado freelance para clientes como ¬BPM Digital Labs¬ y ~Edesur~ desarrollando sitios web, y también llevo 2 años enseñando programación en la ¬Universidad Maimónides¬.\n¡Échale un ojo a mi ~curriculum~ para ver más detalles!",
       "links": [
         {
           "text": "Mi curriculum",
@@ -32,19 +32,19 @@
         {
           "text": "mis-proyectos",
           "icon": "/img/projects.png",
-          "URL": "/projects",
+          "URL": "#projects",
           "alt": "icono de proyectos"
         },
         {
           "text": "app-ajedrez",
           "icon": "/img/chess.webp",
-          "URL": "/projects/chess",
+          "URL": "/projects/chess-app",
           "alt": "icono del proyecto app ajedrez"
         },
         {
           "text": "app-lecturas",
           "icon": "/img/readings.png",
-          "URL": "/projects/readings",
+          "URL": "/projects/energy-app",
           "alt": "icono del proyecto app lecturas"
         }
       ]

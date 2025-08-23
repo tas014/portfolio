@@ -86,6 +86,7 @@ watch(
     nextTick(() => {
       setTimeout(() => {
         setInitialPositions()
+        constrainAll()
       }, 200)
     })
   },
@@ -364,6 +365,11 @@ const closePanel = (panelId: number) => {
 const updateDropBoxRect = () => {
   if (dropBox.value) dropBoxRect.value = dropBox.value?.getBoundingClientRect()
 }
+let updateTimeoutId: null | number = null
+const updatePanelsOnResize = () => {
+  if (updateTimeoutId) clearTimeout(updateTimeoutId)
+  updateTimeoutId = setTimeout(constrainAll, 300)
+}
 // Dragging logic
 
 type Draggable = {
@@ -473,14 +479,23 @@ const constrainWithinBounds = (...elements: HTMLElement[]): void => {
     }
   }
 }
+const constrainAll = () => {
+  for (const pan of panelRefs.value) {
+    constrainWithinBounds(pan.ref)
+  }
+}
+
 onMounted(() => {
   window.addEventListener('resize', updateDropBoxRect)
+  window.addEventListener('resize', updatePanelsOnResize)
   updateDropBoxRect()
   handleMouseLeave()
   setInitialPositions()
+  setTimeout(constrainAll, 200)
 })
 onUnmounted(() => {
   window.removeEventListener('resize', updateDropBoxRect)
+  window.removeEventListener('resize', updatePanelsOnResize)
   clearInterval(shuffleInterval)
   if (maxMinTimeout) clearTimeout(maxMinTimeout)
   clearTimeout(shuffleTimeout)
@@ -495,6 +510,9 @@ onUnmounted(() => {
       v-if="isPanelMaximized"
     ></div>
     <h1 class="about-title">{{ language === 'es' ? 'Sobre Mi' : 'About Me' }}</h1>
+    <span class="about-span">{{
+      language === 'es' ? '¡Con paneles interactivos!' : 'With interactive panels!'
+    }}</span>
     <div class="visible-panels">
       <SinglePanel
         v-for="panel in renderedPanels"
@@ -521,7 +539,11 @@ onUnmounted(() => {
         <template #title>{{ panel.title }}</template>
         <template #links>
           <li v-for="link in panel.links" :key="link.text + link.alt">
-            <a :href="link.URL" target="_blank" rel="noopener noreferrer">
+            <a
+              :href="link.URL"
+              :target="link.URL === '#projects' ? '_self' : '_blank'"
+              rel="noopener noreferrer"
+            >
               <img :src="link.icon" :alt="link.alt" />
               <span>{{ link.text }}</span>
             </a>
@@ -645,7 +667,11 @@ section {
   background-color: rgba(0, 0, 0, 0.4);
 }
 .about-title {
-  padding: 5rem;
+  padding: 5rem 0rem 1rem 5rem;
+}
+.about-span {
+  margin: 0rem 5rem;
+  color: var(--color-highlight);
 }
 .visible-panels article {
   transition:
@@ -653,5 +679,8 @@ section {
     left var(--transition-time),
     width 0.5s,
     height 0.5s;
+}
+.visible-panels {
+  margin-top: 2rem;
 }
 </style>

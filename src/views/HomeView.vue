@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HomeHero from '@/components/HomeHero.vue'
 import PanelsSection from '@/components/PanelsSection.vue'
+import ProjectsSection from '@/components/ProjectsSection.vue'
 import EnHomeContent from '@/content/en/home.json'
 import EsHomeContent from '@/content/es/home.json'
 import { languageKey } from '@/stores/lang'
@@ -18,5 +19,6 @@ const spanishHeroContent = EsHomeContent.hero
     <PanelsSection>
       {{ language === 'en' ? englishHeroContent : spanishHeroContent }}
     </PanelsSection>
+    <ProjectsSection />
   </main>
 </template>

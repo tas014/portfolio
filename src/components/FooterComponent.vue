@@ -15,7 +15,7 @@ const content = computed(() => {
   <footer>
     <div class="main-container">
       <div class="titles-container">
-        <h2>{{ content.title }}</h2>
+        <h2 v-html="content.title"></h2>
         <h4>{{ content.subtitle }}</h4>
         <a href="mailto:francopiccobusiness@gmail.com">francopiccobusiness@gmail.com</a>
       </div>
@@ -62,9 +62,13 @@ footer {
   justify-content: space-between;
   padding: 5rem 5rem;
 }
-.main-container > div {
+.titles-container,
+.socials-container {
   width: 30%;
   overflow: hidden;
+}
+.profile-container {
+  width: 50rem;
 }
 .titles-container {
   display: flex;
@@ -103,5 +107,60 @@ footer {
 }
 .blue-sky-logo {
   filter: invert(29%) sepia(98%) saturate(1529%) hue-rotate(194deg) brightness(107%) contrast(107%);
+}
+
+@media (max-width: 1800px) {
+  .profile-container {
+    width: 40rem;
+  }
+}
+
+@media (max-width: 1210px) {
+  .main-container {
+    flex-direction: column;
+    width: 95%;
+  }
+  .titles-container,
+  .socials-container {
+    width: 80%;
+    margin-top: 2rem;
+  }
+  .titles-container {
+    order: 2;
+    text-align: center;
+    gap: 3rem;
+  }
+  .profile-container {
+    order: 1;
+  }
+  .socials-container {
+    order: 3;
+    margin-top: 5rem;
+  }
+  .socials-container > h3,
+  .socials-list {
+    justify-content: center;
+  }
+  .socials-list {
+    align-items: center;
+    flex-direction: row;
+    gap: 5rem;
+  }
+}
+@media (max-width: 800px) {
+  .main-container {
+    padding: 3rem;
+    width: 100%;
+  }
+  .titles-container,
+  .socials-container {
+    width: 95%;
+  }
+  .profile-container {
+    width: 30rem;
+  }
+  .socials-list {
+    gap: 3rem;
+  }
 }
 </style>

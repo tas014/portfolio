@@ -28,7 +28,7 @@ defineExpose({ container })
         }
       "
     >
-      <h2>
+      <h2 class="panel-title">
         <slot name="title">
           <h2
             @click="
@@ -71,15 +71,18 @@ defineExpose({ container })
         ></i>
       </div>
     </div>
-    <div class="text-container">
-      <p
-        v-html="styleText(description)"
-        @click="
-          (e) => {
-            e.stopPropagation()
-          }
-        "
-      ></p>
+    <div class="text-wrapper">
+      <div class="text-container">
+        <p
+          v-html="styleText(description)"
+          @click="
+            (e) => {
+              e.stopPropagation()
+            }
+          "
+          class="panel-description"
+        ></p>
+      </div>
       <ul class="links-container">
         <slot name="links"></slot>
       </ul>
@@ -103,6 +106,7 @@ defineExpose({ container })
   gap: 1rem;
   list-style: none;
   padding-left: 0px;
+  margin-top: 1rem;
 }
 .links-container a {
   display: flex;
@@ -113,12 +117,14 @@ defineExpose({ container })
   width: 2rem;
   object-fit: scale-down;
 }
+.panel-title {
+  color: #fff;
+}
 .panel-interactables {
-  height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr;
-  place-content: center;
+  align-items: stretch;
 }
 .panel-interactables i {
   cursor: pointer;
@@ -130,19 +136,14 @@ defineExpose({ container })
 .panel-interactables i:hover {
   background-color: var(--panel-button-hover);
 }
-.panel-interactables i:last-of-type {
-  border-top-right-radius: 1rem;
-}
 .panel-interactables i:hover:last-of-type {
   background-color: #9b0b0b;
 }
 .title-container {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
-  padding-left: 1rem;
-  height: 5rem;
-  padding-left: 3rem;
+  height: fit-content;
   border-bottom: 1px solid var(--hover-color-highlight);
   background-color: var(--panel-title-color-background);
   overflow: hidden;
@@ -154,15 +155,25 @@ defineExpose({ container })
 }
 .title-container h2 {
   padding-right: 1rem;
+  padding: 1rem 0rem 1rem 3rem;
+}
+.panel-description {
+  justify-self: center;
 }
 
 .text-container {
   display: flex;
-  flex-grow: 1;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+.text-wrapper {
+  padding: 2rem 3rem;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2rem 3rem;
   min-height: 30vh;
+  flex-grow: 1;
 }
 
 .title-container h2,
@@ -180,5 +191,37 @@ defineExpose({ container })
 }
 .yellow-text {
   color: #cab57d;
+}
+.maximize-icon {
+  display: none;
+}
+
+@media (max-width: 1700px) {
+  .panel-container {
+    width: 60rem;
+  }
+}
+@media (max-width: 1400px) {
+  .panel-container {
+    width: 50rem;
+  }
+}
+@media (max-width: 1200px) {
+  .panel-container {
+    width: 40rem;
+  }
+}
+@media (max-width: 1000px) {
+  .panel-container {
+    width: 100%;
+    position: static;
+    margin-bottom: 1rem;
+  }
+  .text-container {
+    max-height: none;
+  }
+  .maximize-icon {
+    display: block;
+  }
 }
 </style>

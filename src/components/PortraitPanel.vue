@@ -28,7 +28,7 @@ defineExpose({ container })
         }
       "
     >
-      <h2>
+      <h2 class="panel-title">
         <slot name="title">
           <h2>Default title</h2>
         </slot>

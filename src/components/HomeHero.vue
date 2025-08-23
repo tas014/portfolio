@@ -30,7 +30,7 @@ import { styleText } from './utils/textFormat';
     if (heroImgTimeout) clearTimeout(heroImgTimeout)
     heroImgTimeout = setTimeout(()=>{
       heroImgInd.value = (heroImgInd.value + 1) % heroImgs.length
-    }, 1000)
+    }, 950)
   }
 
   const currentShape = ref(shapesMap.get("pentagon"));
@@ -66,10 +66,10 @@ import { styleText } from './utils/textFormat';
       <div class="clipper"></div>
       <img :style="{clipPath: `polygon(${currentShape})`}" class="hero-image" :src="heroImgs[heroImgInd]" alt="a picture of Franco">
       <div class="img-logo-container">
-        <img src="/img/code.png" alt="a symbol representing coding">
+        <i class="pi pi-code code-icon"></i>
       </div>
     </div>
-    <div class="text-container">
+    <div class="hero-text-container">
       <span>
         <i class="tag">{{`<span>`}}</i>
           {{language === 'en' ? "Hey! I'm Franco" : "¡Hola! Mi nombre es Franco."}}
@@ -92,13 +92,12 @@ import { styleText } from './utils/textFormat';
    object-fit: cover;
   }
   .hero-container {
-    display: flex;
-    height: 70vh;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10rem;
     background-color: var(--container-color-background);
   }
   .img-container {
-    width: 40%;
     position: relative;
     z-index: 1;
   }
@@ -115,8 +114,8 @@ import { styleText } from './utils/textFormat';
     right: 10px;
     bottom: 10px;
   }
-  .text-container {
-    width: 45%;
+  .hero-text-container {
+    width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -131,7 +130,40 @@ import { styleText } from './utils/textFormat';
   .description {
     color: var(--color-secondary);
   }
+  .code-icon {
+    color: #067955;
+    font-size: 7rem;
+    margin-bottom: 5rem;
+    margin-right: 5rem;
+  }
   .description i, .description p {
     display: inline;
+  }
+
+  @media (max-width: 1400px) {
+    .hero-container {
+      gap: 5rem;
+    }
+    .hero-text-container {
+      width: 90%;
+    }
+    .code-icon {
+    font-size: 5rem;
+  }
+  }
+
+  @media (max-width: 1000px) {
+    .img-container {
+      display: none;
+    }
+    .hero-container {
+      height: fit-content;
+      grid-template-columns: 1fr;
+    }
+    .hero-text-container {
+      align-self: center;
+      justify-self: center;
+      padding: 3rem;
+    }
   }
 </style>

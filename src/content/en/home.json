@@ -1,9 +1,9 @@
 {
-  "hero": "Hi there! My name is *Franco*, I'm a *26 years old* aspiring ¬Front End developer¬ from Buenos Aires, Argentina. I have experience ¬building sites¬ with React, Next, Vue and ~am always on the lookout~ for an excuse to learn a new ¬framework¬ or *library*! Truth be told, I just °love° all things programming related. Be it games, cool *algorithms* to work around specific problems, AI or modding pretty much anything to make it a more personal experience, I constantly find myself fiddling with *some* type of code. ~Welcome~ to my page!",
+  "hero": "Hi there! My name is *Franco*, I'm a *26 years old* aspiring ¬Front End developer¬ from Buenos Aires, Argentina. I have experience ¬building sites¬ with React, Next, Vue and ~am always on the lookout~ for an excuse to learn a new ¬framework¬ or *library*! Truth be told, I just °love° all things programming; be it games, cool *algorithms* to work around specific problems, AI or modding pretty much anything to make it a more personal experience, I constantly find myself fiddling with *some* type of code. ~Welcome~ to my page!",
   "panels": [
     {
       "title": "experience",
-      "description": "I have worked (trust me ¬bro¬)",
+      "description": "I have worked freelance for a small range of clients like ¬BPM Digital Labs¬ and ~Edesur~ developing websites, as well as teaching programming at ¬Universidad Maimonides¬ for 2 years now.\nCheck out my ~resume~ for more details!",
       "links": [
         {
           "text": "my Curriculum",
@@ -27,36 +27,36 @@
     },
     {
       "title": "my-projects",
-      "description": "I have *completed 8 projects* for clients, altough a good part of them were made with tools such as ¬Wordpress¬ or ¬TiendaNube¬, which while i fully respect developers who decide to pursue careers utilizing these ~tools~ to create websites, it's not really for ~Me~. This said, I do have *2 projects* I'm very ~proud of~ that are a great display of my *skills*: One is a °chess app° that showcases inherent *complex logic* and ¬UI handling¬, and the other is a *real world application* for calculating badly delivered energy and their corresponding °penalties° that is being used to this day, saving *millions* of dollars for the company! If you have the time, I'd *love* to tell you all about them!",
+      "description": "I have *completed 8 projects* for clients, altough a good part of them were made with tools such as ¬Wordpress¬ or ¬TiendaNube¬, which while I fully respect developers who decide to pursue careers utilizing these ~tools~ to create websites, it's not really for ~Me~. That said, I do have *2 projects* I'm very ~proud of~ that are a great display of my *skills*; one is a °chess app° that showcases inherent *complex logic* and ¬UI handling¬, and the other is a *real world application* for calculating energy supplied under the wrong conditions and their corresponding °penalties° that is being used to this day, saving *millions* of dollars for the company! If you have the time, I'd *love* to tell you all about them!",
       "links": [
         {
           "text": "my-projects",
           "icon": "/img/projects.png",
-          "URL": "/projects",
+          "URL": "#projects",
           "alt": "projects icon"
         },
         {
           "text": "chess-app",
           "icon": "/img/chess.webp",
-          "URL": "/projects/chess",
+          "URL": "/projects/chess-app",
           "alt": "chess app icon"
         },
         {
           "text": "readings-app",
           "icon": "/img/readings.png",
-          "URL": "/projects/readings",
+          "URL": "/projects/energy-app",
           "alt": "readings app icon"
         }
       ]
     },
     {
       "title": "my-journey",
-      "description": "I've been ¬learning¬ to program for about °6 years° now. My first real interaction with a ¬code editor¬ was on my first year at Universidad Maimonides, Argentina. I wasn't quite sure what I wanted to follow career-wise, so i went for a career that had many aspects I had *interest* in, such as ¬graphic design¬, ~media editing~ (photoshop, premiere, aftereffects, etc), ¬animation¬, °3D Modeling°, and naturally, *programming*. This was, however, not even close in terms of how much the different subjects interested me once i actually got to do some hands on learning, as I immediately loved the amount of ¬control¬ I have when coding and just how powerful of a *tool* a computer is. I can only wonder what someone like Sir Isaac Newton would have been able to accomplish with a computer, and I'm ~extremely excited~ to see what I can learn from people who have *surpassed my own level* some 10, 20 or even 30+ years ago! I'm currently reaping the rewards of my hard work too. The people who have ¬worked with me¬ have all said very *encouraging* things to me as a professional, and the college I studied in even thought I was good enough to *teach* at a University as a 26 year old! I'm now ready to dive into the world of constant ¬production¬, with a *skillset* that doesn't just involve *programming*, but rather a full fledged ~Multi-Media professional~ capable of working with and around all kinds of professionals that involve *creating* wonderful digital ¬products¬!",
+      "description": "I've been ¬learning¬ to program for about °6 years° now. My first real interaction with a ¬code editor¬ was on my first year at Universidad Maimonides, Argentina. I wasn't quite sure what I wanted to follow career-wise, so i went for a career that had many aspects I had *interest* in, such as ¬graphic design¬, ~media editing~ (photoshop, premiere, aftereffects, etc), ¬animation¬, °3D Modeling°, and naturally, *programming*. This was, however, not even close in terms of how much the different subjects interested me once i actually got to do some hands on learning. I immediately fell in love with the amount of ¬control¬ I have when coding and just how powerful a *tool* a computer is. I can only wonder what someone like Sir Isaac Newton would have been able to accomplish with a computer, and I'm ~extremely excited~ to see what I can learn from my seniors, whom have walked this path some 10, 20 or even 30+ years ago! I'm currently reaping the rewards of my hard work too. The people who have ¬worked with me¬ have all had very encouraging feedback, particularly in regard to my ~communication skills~. I have also been teaching programming at Universidad Maimonides for two years now. I'm now ready to dive into the world of constant ¬production¬, with a *skillset* that doesn't just involve *programming*, but rather the  full fledged knowledge of a ~Multi-Media developer~ capable of working with, and around, all kinds of professionals that involve *creating* wonderful digital ¬products¬!",
       "links": []
     },
     {
       "title": "technologies-and-languages",
-      "description": "I'm *bilingual*! I can speak and write both ¬English¬ and *Spanish* at a very fluent level. Regarding ~programming languages~ for web development, I have utilized ¬many¬ °HTML°/~JS~/¬CSS¬ based technologies. Here's a *list*:",
+      "description": "I'm *bilingual*! I can speak and write in both ¬English¬ and *Spanish* at a very proficient level. I am a native Spanish speaker, and am fluent in English. Regarding ~programming languages~ for web development, I have utilized ¬many¬ °HTML°/~JS~/¬CSS¬ based technologies. Here's a *list*:",
       "links": [
         {
           "text": "React",

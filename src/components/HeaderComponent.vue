@@ -11,25 +11,25 @@ const hanldeLangSwap = (val: 'en' | 'es') => {
 <template>
   <header>
     <div class="wrapper">
+      <h1>Franco Picco</h1>
       <nav class="nav-menu">
-        <div class="flex-center languages-container" @click="() => (isDisplayed = !isDisplayed)">
-          <i class="pi pi-globe dropdown-container">
-            <div class="dropdown-languages" v-if="isDisplayed">
-              <span @click="() => hanldeLangSwap('en')">EN</span>
-              <span @click="() => hanldeLangSwap('es')">ES</span>
-            </div>
-          </i>
-          <span>{{ language.toUpperCase() }}</span>
-        </div>
-        <RouterLink class="link" to="/">Home</RouterLink>
-        <RouterLink class="link" to="/projects">Projects</RouterLink>
+        <RouterLink class="link" to="/">{{ language === 'es' ? 'Inicio' : 'Home' }}</RouterLink>
+        <a class="link" href="/#projects">{{ language === 'es' ? 'Proyectos' : 'Projects' }}</a>
       </nav>
+      <div class="flex-center languages-container" @click="() => (isDisplayed = !isDisplayed)">
+        <i class="pi pi-globe dropdown-container">
+          <div class="dropdown-languages" v-if="isDisplayed">
+            <span @click="() => hanldeLangSwap('en')">EN</span>
+            <span @click="() => hanldeLangSwap('es')">ES</span>
+          </div>
+        </i>
+        <span>{{ language.toUpperCase() }}</span>
+      </div>
     </div>
   </header>
 </template>
 <style scoped>
 header {
-  background-color: var(--color-highlight);
   padding: 1rem 3rem;
 }
 .wrapper,
@@ -38,7 +38,22 @@ header {
   gap: 1rem;
 }
 .wrapper {
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 2120px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  border: solid 1px var(--color-highlight);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  transition: background-color 0.5s;
+}
+.wrapper:hover {
+  background-color: var(--hover-color-highlight);
+}
+h1 {
+  font-size: var(--secondary-title);
 }
 nav {
   justify-content: center;
@@ -54,16 +69,21 @@ nav {
 .languages-container {
   gap: 0.5rem;
   cursor: pointer;
+  transition: color 0.3s;
+}
+.languages-container:hover {
+  color: var(--color-highlight);
 }
 .dropdown-container {
   position: relative;
 }
 .dropdown-languages {
   position: absolute;
-  top: 3.4rem;
+  top: 4rem;
   left: 0px;
   display: grid;
   place-content: center;
+  color: var(--color-text);
 }
 .dropdown-languages span {
   padding: 1rem;
