@@ -8,8 +8,9 @@
         {
           "text": "Mi curriculum",
           "icon": "/img/pdf.png",
-          "URL": "/CV.pdf",
-          "alt": "icono de curriculum"
+          "URL": "/SpanishCV.pdf",
+          "alt": "icono de curriculum",
+          "download": true
         }
       ]
     },
@@ -20,8 +21,9 @@
         {
           "text": "Mi-historia-laboral",
           "icon": "/img/pdf.png",
-          "URL": "/CV.pdf",
-          "alt": "icono de curriculum"
+          "URL": "/SpanishCV.pdf",
+          "alt": "icono de curriculum",
+          "download": true
         }
       ]
     },

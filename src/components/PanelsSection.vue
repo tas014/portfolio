@@ -29,6 +29,7 @@ type Panel = {
     URL: string
     icon: string
     alt: string
+    download?: boolean
   }[]
   top: string
   left: string
@@ -540,8 +541,18 @@ onUnmounted(() => {
         <template #links>
           <li v-for="link in panel.links" :key="link.text + link.alt">
             <a
+              v-if="link.download !== true"
               :href="link.URL"
               :target="link.URL === '#projects' ? '_self' : '_blank'"
+              rel="noopener noreferrer"
+            >
+              <img :src="link.icon" :alt="link.alt" />
+              <span>{{ link.text }}</span>
+            </a>
+            <a
+              v-else
+              :href="link.URL"
+              :download="language === 'es' ? 'Curriculum' : 'Resume'"
               rel="noopener noreferrer"
             >
               <img :src="link.icon" :alt="link.alt" />

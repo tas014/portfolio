@@ -6,10 +6,11 @@
       "description": "I have worked freelance for a small range of clients like ¬BPM Digital Labs¬ and ~Edesur~ developing websites, as well as teaching programming at ¬Universidad Maimonides¬ for 2 years now.\nCheck out my ~resume~ for more details!",
       "links": [
         {
-          "text": "my Curriculum",
+          "text": "my-resume",
           "icon": "/img/pdf.png",
-          "URL": "/CV.pdf",
-          "alt": "curriculum icon"
+          "URL": "/EnglishCV.pdf",
+          "alt": "resume icon",
+          "download": true
         }
       ]
     },
@@ -20,8 +21,9 @@
         {
           "text": "my-work-history",
           "icon": "/img/pdf.png",
-          "URL": "/CV.pdf",
-          "alt": "curriculum icon"
+          "URL": "/EnglishCV.pdf",
+          "alt": "resume icon",
+          "download": true
         }
       ]
     },
