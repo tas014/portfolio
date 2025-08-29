@@ -1,6 +1,8 @@
 {
   "title": "App de Energía",
   "description": "Este es un proyecto real que realicé para Edesur, una empresa de distribución eléctrica argentina. El proyecto surgió porque un conocido que trabaja en la empresa desarrolló un software para realizar estos cálculos con Visual Basic, pero por alguna razón no pudo ejecutarlo en las computadoras de sus compañeros. Además, procesaba los datos de forma bastante lenta, llegando a tardar hasta media hora en ocasiones. La necesidad de distribuir este software era imperativa, ya que la empresa contaba con un departamento entero que realizaba estos cálculos a la vieja escuela, lo que generaba muchos errores humanos y retrasos en la entrega de informes, y por lo tanto acarreaba literalmente millones de dólares en multas. Hablamos del proyecto y, como las computadoras de la empresa no permitían instalar software, se me ocurrió crear una aplicación web que pudiera recibir los datos y procesarlos. Esto resolvería ambos problemas a la vez, ya que una aplicación web es fácilmente accesible desde cualquier navegador y yo estaba mejor capacitado para optimizar la lógica del procesamiento de datos para que fuera eficiente. Después de poco más de un mes de trabajar con un ingeniero eléctrico en este proyecto, lo pusimos en producción y... ¡La penalización del mes siguiente (y de todos los meses desde entonces) fue de cero dólares! Échale un ojo si quieres saber más sobre los desafíos que enfrenté al crear esta aplicación.",
+  "tags": ["Procesamiento de Datos", "UX | UI", "Comunicación", "Resolución de Problemas"],
+  "year": 2024,
   "project": {
     "title": "Energy App",
     "sections": [
