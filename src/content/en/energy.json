@@ -3,6 +3,33 @@
   "description": "This is a real world project I made for Edesur, which is an electricity provider in Argentina. This project was born because someone I know that works for the company had developed a software in order to make these calculations using Visual Basic, but for some reason couln't get it to run on their coworkers' computers. It was also quite slow at processing the data, taking up to half an hour at times. The need to distribute this software was imperative too, since the company had a whole department running these calculations the old fashioned way, and this led to a lot of human error and delayed informs, which would lead to literal millions of dollars in penalties. We talked about the project, and since the company PCs woulnd't let users install software, I had the idea of making a web app that could receive the data and process it! This would solve both issues at once, since a web app is easily accessible from any browser and I was better qualified for optimizing the logic of the data processing in order to make it efficient. After a bit over a month of working together with an electrical engineer on this project, we got it into production and the penalty for the next month (and every month since then so far) was exactly zero dollars! Check it out if you want to find out about the challenges I faced making this app.",
   "tags": ["Data Processing", "UX | UI", "Communication", "Problem Solving"],
   "year": 2024,
+  "client": {
+    "name": "Edesur",
+    "description": "Edesur is an electrical energy provider in Argentina. For this project I planned, designed and programmed a web solution for the massive problem that were wrongly or out of deadline filed reports regarding badly delivered energy, that was costing the company millions of dollars."
+  },
+  "objective": "Creating a platform for the engineers at Edesur to upload, process and summarize all the data regarding energy readings, as well as calculating the total penalty on the fly. These files would be processed, fed into the total penalty and then be output as an excel file for the engineers to further expand on.",
+  "links": [
+    {
+      "text": "Link to the site",
+      "URL": "https://cpt-test-umber.vercel.app/"
+    },
+    {
+      "text": "Datos para probar el sitio",
+      "URL": "/EnergyAppSampleFiles.rar",
+      "download": true
+    }
+  ],
+  "software": [
+    {
+      "name": "React",
+      "icon": "/img/react.png"
+    },
+    {
+      "name": "Sheet.js",
+      "icon": "/img/sheetjs.png"
+    }
+  ],
+  "outcome": "The project was a resounding success. While it had to be rushed a bit due to the large sums of money that depended on its completion, after a month of constant comunication with Edesur's engineers we managed to put the website into production, and after the following four-month period the penalties resulted in a grand total of 0 dollars to pay for wrong or out of term reports!",
   "project": {
     "title": "Energy App",
     "sections": [

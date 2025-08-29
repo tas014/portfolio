@@ -3,6 +3,33 @@
   "description": "Este es un proyecto real que realicé para Edesur, una empresa de distribución eléctrica argentina. El proyecto surgió porque un conocido que trabaja en la empresa desarrolló un software para realizar estos cálculos con Visual Basic, pero por alguna razón no pudo ejecutarlo en las computadoras de sus compañeros. Además, procesaba los datos de forma bastante lenta, llegando a tardar hasta media hora en ocasiones. La necesidad de distribuir este software era imperativa, ya que la empresa contaba con un departamento entero que realizaba estos cálculos a la vieja escuela, lo que generaba muchos errores humanos y retrasos en la entrega de informes, y por lo tanto acarreaba literalmente millones de dólares en multas. Hablamos del proyecto y, como las computadoras de la empresa no permitían instalar software, se me ocurrió crear una aplicación web que pudiera recibir los datos y procesarlos. Esto resolvería ambos problemas a la vez, ya que una aplicación web es fácilmente accesible desde cualquier navegador y yo estaba mejor capacitado para optimizar la lógica del procesamiento de datos para que fuera eficiente. Después de poco más de un mes de trabajar con un ingeniero eléctrico en este proyecto, lo pusimos en producción y... ¡La penalización del mes siguiente (y de todos los meses desde entonces) fue de cero dólares! Échale un ojo si quieres saber más sobre los desafíos que enfrenté al crear esta aplicación.",
   "tags": ["Procesamiento de Datos", "UX | UI", "Comunicación", "Resolución de Problemas"],
   "year": 2024,
+  "client": {
+    "name": "Edesur",
+    "description": "Edesur es una empresa de distribución eléctrica argentina. En este proyecto planifiqué, diseñé y programé una solución para el enorme problema de las multas por reportes erróneos o fuera de plazo, que le estaba costando a la empresa millones de dólares."
+  },
+  "objective": "Crear una aplicación que permita subir y procesar los archivos con registros de mediciones, calcular las mediciones penalizadas e imprimirlas en un archivo excel para uso por parte de los Ingenieros de Edesur.",
+  "links": [
+    {
+      "text": "Link al sitio",
+      "URL": "https://cpt-test-umber.vercel.app/"
+    },
+    {
+      "text": "Datos para probar el sitio",
+      "URL": "/EnergyAppSampleFiles.rar",
+      "download": true
+    }
+  ],
+  "software": [
+    {
+      "name": "React",
+      "icon": "/img/react.png"
+    },
+    {
+      "name": "Sheet.js",
+      "icon": "/img/sheetjs.png"
+    }
+  ],
+  "outcome": "El proyecto fue un éxito rotundo. Si bien hubo que apurar mucho el proceso debido a la magnitud de dinero en juego, tras un mes de constante comunicación con el equipo de Ingenieros de Edesur pudimos poner en producción el sitio, ¡y el total de multas por reportes erróneos o fuera de término del cuatrimestre fue de exactamente 0 dólares!",
   "project": {
     "title": "Energy App",
     "sections": [
