@@ -3,6 +3,28 @@
   "description": "A chess application I developed because of my love for the game. It started as a reverse dare by my sophomore professor, meaning I wanted to do it as my final assignment but he insisted it would be too complex for the level that was expected of us at the time. After some back and forth, he said I could do it, but only if I could bring working pieces to the next class (which was 3 days later). And bring it I did! This project was originally made in vanilla JS/HTML, but I decided to implement a nextjs version of it because I was struggling to grasp some of the concepts of react, and while I had to learn A LOT in order to get everything working properly, this project is one of my proudest ones to date. I'm even working on a chess AI for it! Check it out if you want to hear all about the challenges I had to overcome with this project.",
   "tags": ["Lógica Compleja", "Manejo de UI", "Estructuras de Datos", "IA"],
   "year": 2025,
+  "client": {
+    "name": "Passion Project",
+    "description": "This was a passion project I developed because of my love for chess, as well as a dare from my college professors! It's a challenging application that's bound to give any developer at least a headache or two, but oh so worth it if you take into consideration the sheer amount of knowledge acquired by challenging yourself."
+  },
+  "objective": "Create a responsive, animated, fully working chessboard without using any libraries. I'm currently working on a chess AI for this project too!",
+  "links": [
+    {
+      "text": "Link to the chess website",
+      "URL": "https://chess-app-peach-rho.vercel.app/"
+    }
+  ],
+  "software": [
+    {
+      "name": "Next",
+      "icon": "/img/next.png"
+    },
+    {
+      "name": "React Context API",
+      "icon": "/img/react.png"
+    }
+  ],
+  "outcome": "This project was a lot of fun. I learned so much about deep state (not the conspiracy kind) updates, sources of truth and reactivity as a paradigm, and I'm not even done with it as my custom AI is coming soon! Due to it's inherent complexity, I constantly keep finding small ways to refactor or optimize it's functionality, and there's even a particular visual bug that I found hilarious and decided to leave as an easter egg. Can you find it?",
   "project": {
     "title": "Chess App",
     "sections": [
