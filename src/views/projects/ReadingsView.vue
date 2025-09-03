@@ -8,9 +8,9 @@ import EsContent from '@/content/es/energy.json'
 const language: Language = inject(languageKey, ref('en'))
 const energyContent = computed(() => {
   if (language.value === 'es') {
-    return EsContent.project
+    return EsContent
   }
-  return EnContent.project
+  return EnContent
 })
 </script>
 <template>

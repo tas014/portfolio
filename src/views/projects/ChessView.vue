@@ -8,9 +8,9 @@ import EsContent from '@/content/es/chess.json'
 const language: Language = inject(languageKey, ref('en'))
 const chessContent = computed(() => {
   if (language.value === 'es') {
-    return EsContent.project
+    return EsContent
   }
-  return EnContent.project
+  return EnContent
 })
 </script>
 <template>

@@ -1,6 +1,8 @@
 {
   "title": "App Ajedrez",
   "description": "Una aplicación de ajedrez que he desarrollado por amor al juego. Esto comenzó por un reto de mi profesor de segundo año en la universidad, pues yo quería desarrollar un ajedrez como mi proyecto final pero él insistía que era un proyecto demasiado complejo para nuestro nivel en aquel momento. tras debatirlo por un rato, dijo que sólo podría hacerlo como proyecto final si era capaz de traer piezas funcionales para la siguiente clase, dentro de tres días. ¡Así que eso hice! Originalmente, este proyecto estaba hecho en HTML/JS vanilla, pero decidí implementar una versión del proyecto en nextjs porque me estaba costando entender algunos conceptos de react y nextjs, y si bien tuve que aprender MUCHO para poder hacer funcionar todo, este proyecto es de los que más orgulloso estoy al día de hoy. ¡Incluso estoy trabajando en desarrollar una IA para el! Échale un ojo si quieres aprender sobre todas las dificultades de un proyecto como éste.",
+  "route": "/projects/chess-app",
+  "previewURL": "/img/chess-ss.webp",
   "tags": ["Lógica Compleja", "Manejo de UI", "Estructuras de Datos", "IA"],
   "year": 2025,
   "client": {
