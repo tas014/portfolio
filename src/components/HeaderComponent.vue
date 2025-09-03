@@ -93,4 +93,10 @@ nav {
 .dropdown-languages span:hover {
   background-color: var(--color-highlight);
 }
+
+@media (max-width: 1500px) {
+  .dropdown-languages {
+    top: 3.5rem;
+  }
+}
 </style>
