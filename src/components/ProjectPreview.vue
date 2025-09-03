@@ -93,6 +93,7 @@ defineProps<{
   border-radius: 20px;
   background-color: #c0c0c0;
   color: var(--color-highlight);
+  font-size: var(--tag-size);
   cursor: context-menu;
   transition: all 0.5s;
 }
