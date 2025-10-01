@@ -15,5 +15,3 @@ provide(languageKey, language)
   </main>
   <FooterComponent />
 </template>
-
-<style scoped></style>
