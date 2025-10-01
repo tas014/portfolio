@@ -3,7 +3,7 @@
   "description": "A chess application I developed because of my love for the game. It started as a reverse dare by my sophomore professor, meaning I wanted to do it as my final assignment but he insisted it would be too complex for the level that was expected of us at the time. After some back and forth, he said I could do it, but only if I could bring working pieces to the next class (which was 3 days later). And bring it I did! This project was originally made in vanilla JS/HTML, but I decided to implement a nextjs version of it because I was struggling to grasp some of the concepts of react, and while I had to learn A LOT in order to get everything working properly, this project is one of my proudest ones to date. I'm even working on a chess AI for it! Check it out if you want to hear all about the challenges I had to overcome with this project.",
   "route": "/projects/chess-app",
   "previewURL": "/img/chess-ss.webp",
-  "tags": ["Lógica Compleja", "Manejo de UI", "Estructuras de Datos", "IA"],
+  "tags": ["Complex Logic", "UX | UI", "Data Structures", "AI"],
   "year": 2025,
   "client": {
     "name": "Passion Project",
