@@ -10,9 +10,9 @@ import { styleText } from './utils/textFormat';
   const language : Language = inject(languageKey, ref('en'));
   const titleText = computed(() => {
     if (language.value === 'es') {
-      return `Desarrollador Web <strong class="highlighted">{Front End}</strong> Junior_`
+      return `Desarrollador Web <strong class="highlighted">{Full Stack}</strong>_`
     }
-    return `Junior <strong class="highlighted">{Front End}</strong> Web Developer_`
+    return `<strong class="highlighted">{Full Stack}</strong> Web Developer_`
   })
 
   const shapesMap = new Map([
