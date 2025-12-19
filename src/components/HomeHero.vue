@@ -12,7 +12,7 @@ import { styleText } from './utils/textFormat';
     if (language.value === 'es') {
       return `Desarrollador Web <strong class="highlighted">{Full Stack}</strong>_`
     }
-    return `<strong class="highlighted">{Full Stack}</strong> Web Developer_`
+    return `A <strong class="highlighted">{Full Stack}</strong> Web Developer_`
   })
 
   const shapesMap = new Map([
