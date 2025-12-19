@@ -60,7 +60,7 @@ watch(
   language,
   (newLang) => {
     if (newLang === 'es') {
-      panels.value = EsHomeContent.panels.map((panel, ind) => {
+      panels.value = EsHomeContent.panels.map((panel, ind: number) => {
         return {
           id: ind,
           maximized: false,
@@ -105,7 +105,7 @@ onBeforeUpdate(() => {
   panelRefs.value = []
 })
 
-const setPanelRef: any = (
+const setPanelRef = (
   panel: InstanceType<typeof SinglePanel | typeof PortraitPanel>,
   id: number,
 ) => {
@@ -250,10 +250,18 @@ const portrait = ref<Portrait>({
 })
 const minimizePanel = (panelId: number) => {
   if (panelId === -1) {
-    minimizedPanels.value.push({
-      id: -1,
-      title: portrait.value.title,
-    })
+    // If portrait is currently maximized, clear maximized state and restore prevStyle
+    const portraitRef = panelRefs.value.find((pan) => pan.id === -1)?.ref
+    if (portrait.value.maximized) {
+      portrait.value.maximized = false
+      if (portrait.value.prevStyle && portraitRef) {
+        portraitRef.style.zIndex = portrait.value.prevStyle.zIndex
+        portrait.value.top = portrait.value.prevStyle.top
+        portrait.value.left = portrait.value.prevStyle.left
+        portrait.value.prevStyle = null
+      }
+    }
+    minimizedPanels.value.push({ id: -1, title: portrait.value.title })
     portrait.value.minimized = true
     return
   }
@@ -529,7 +537,7 @@ onUnmounted(() => {
           left: panel.left,
         }"
         :ref="
-          (e) => {
+          (e: any) => {
             setPanelRef(e, panel.id)
           }
         "
@@ -575,7 +583,7 @@ onUnmounted(() => {
           left: portrait.left,
         }"
         :ref="
-          (e) => {
+          (e: any) => {
             setPanelRef(e, -1)
           }
         "
